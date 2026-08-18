@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP Distribuciones · Pedidos</title>
+<style>
+  :root{
+    --navy:#0f2a4a;
+    --navy-2:#153a63;
+    --blue:#1c6fd9;
+    --blue-light:#eaf2fd;
+    --paper:#f6f7fa;
+    --line:#e2e6ec;
+    --ink:#16202c;
+    --ink-soft:#5b6675;
+    --accent:#e8973a;
+    --green:#25d366;
+    --white:#ffffff;
+    --radius:14px;
+    --red-bg:#fde8e8;
+    --red-border:#f8b4b4;
+    --red-text:#9b1c1c;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding-bottom:96px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Header */
+  header{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;
+    padding:22px 18px 66px;
+    position:relative;
+  }
+  header h1{
+    margin:0;
+    font-size:1.5rem;
+    letter-spacing:.2px;
+    font-weight:700;
+  }
+  header p{
+    margin:4px 0 0;
+    font-size:.85rem;
+    color:#c7d6ea;
+  }
+
+  /* Cuadro de texto para aviso de Sin Stock */
+  .stock-notice-banner {
+    display: none;
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    color: var(--red-text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 12px;
+    line-height: 1.4;
+  }
+
+  .search-wrap{
+    position:relative;
+    margin:-44px 16px 0;
+    z-index:5;
+  }
+  .search-box{
+    background:#fff;
+    border-radius:var(--radius);
+    box-shadow:0 8px 24px rgba(15,42,74,.16);
+    display:flex;
+    align-items:center;
+    padding:4px 6px 4px 16px;
+    border:1px solid var(--line);
+  }
+  .search-box svg{flex:none;color:var(--ink-soft);}
+  .search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:13px 10px;
+    font-size:1rem;
+    background:transparent;
+    color:var(--ink);
+    min-width:0;
+  }
+  .search-box input::placeholder{color:#9aa4b2;}
+  .clear-btn{
+    border:none;background:var(--paper);color:var(--ink-soft);
+    width:30px;height:30px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    cursor:pointer;flex:none;font-size:1rem;
+  }
+  .clear-btn.show{display:flex;}
+
+  .meta-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 20px 6px;
+    font-size:.8rem;
+    color:var(--ink-soft);
+  }
+  .meta-row b{color:var(--navy);}
+
+  /* Offers strip */
+  .offers-head{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin:6px 16px 8px;
+    font-size:.9rem;
+    font-weight:800;
+    color:var(--navy);
+  }
+  .offers-fire{font-size:1rem;}
+  .offers-track{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:2px 16px 14px;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+  }
+  .offers-track::-webkit-scrollbar{display:none;}
+  .offer-card{
+    flex:none;
+    width:150px;
+    scroll-snap-align:start;
+    background:linear-gradient(160deg,#fff8f0,#fff);
+    border:1.5px solid #f4d9ae;
+    border-radius:14px;
+    padding:12px 12px 10px;
+    box-shadow:0 3px 10px rgba(232,151,58,.12);
+  }
+  .offer-badge{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    font-size:.62rem;
+    font-weight:800;
+    letter-spacing:.4px;
+    padding:2px 7px;
+    border-radius:5px;
+    margin-bottom:7px;
+  }
+  .offer-name{
+    font-size:.78rem;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1.28;
+    min-height:2.4em;
+    margin:0 0 6px;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .offer-price{
+    font-size:.92rem;
+    font-weight:800;
+    color:var(--accent);
+    margin-bottom:8px;
+  }
+  .offer-add{
+    width:100%;
+    border:none;
+    background:var(--navy);
+    color:#fff;
+    font-size:.75rem;
+    font-weight:700;
+    padding:8px 6px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .offer-add.added{
+    background:var(--green);
+  }
+
+  /* Product list */
+  main{padding:6px 14px 4px;}
+  .product{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 14px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    transition:border-color .15s;
+  }
+  .product.active{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-light);}
+  .p-info{flex:1;min-width:0;}
+  .p-name{
+    font-size:.93rem;
+    font-weight:600;
+    line-height:1.32;
+    color:var(--ink);
+    margin:0 0 4px;
+  }
+  .p-price{
+    font-size:.92rem;
+    color:var(--blue);
+    font-weight:700;
+  }
+  .p-controls{
+    display:flex;
+    align-items:center;
+    gap:0;
+    flex:none;
+    background:var(--paper);
+    border-radius:10px;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .qty-btn{
+    width:36px;height:36px;
+    border:none;
+    background:transparent;
+    font-size:1.15rem;
+    color:var(--navy);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    user-select:none;
+    touch-action:manipulation;
+  }
+  .qty-btn:active{background:var(--line);}
+  .qty-val{
+    width:34px;
+    text-align:center;
+    font-size:.95rem;
+    font-weight:700;
+    color:var(--ink);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    background:#fff;
+    padding:0;
+    border-top:none;border-bottom:none;
+    height:36px;
+    -moz-appearance:textfield;
+  }
+  .qty-val::-webkit-outer-spin-button,
+  .qty-val::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+
+  .no-results{
+    text-align:center;
+    color:var(--ink-soft);
+    padding:50px 20px;
+    font-size:.92rem;
+  }
+
+  /* Floating cart bar */
+  .cart-bar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    background:#fff;
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 24px rgba(15,42,74,.10);
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;
+    align-items:center;
+    gap:12px;
+    z-index:20;
+    transform:translateY(0);
+    transition:transform .25s ease;
+  }
+  .cart-bar.hidden{transform:translateY(110%);}
+  .cart-summary{flex:1;min-width:0;}
+  .cart-summary .count{
+    font-size:.72rem;
+    color:var(--ink-soft);
+    margin:0 0 1px;
+  }
+  .cart-summary .total{
+    font-size:1.15rem;
+    font-weight:800;
+    color:var(--navy);
+    margin:0;
+  }
+  .send-btn{
+    background:var(--green);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:13px 20px;
+    font-size:.95rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    flex:none;
+    box-shadow:0 4px 12px rgba(37,211,102,.35);
+  }
+  .send-btn:active{transform:scale(.97);}
+
+  /* Modal */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(15,26,43,.5);
+    z-index:30;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff;
+    width:100%;
+    max-width:520px;
+    border-radius:20px 20px 0 0;
+    max-height:82vh;
+    display:flex;
+    flex-direction:column;
+    animation:slideUp .25s ease;
+  }
+  @keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .modal-head{
+    padding:18px 20px 12px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .modal-head h2{margin:0;font-size:1.1rem;color:var(--navy);}
+  .modal-head button{
+    border:none;background:var(--paper);
+    width:32px;height:32px;border-radius:50%;
+    font-size:1rem;color:var(--ink-soft);cursor:pointer;
+  }
+  .modal-body{
+    padding:8px 20px;
+    overflow-y:auto;
+    flex:1;
+  }
+  .cart-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+    gap:10px;
+  }
+  .cart-row:last-child{border-bottom:none;}
+  .cart-row-info{flex:1;min-width:0;}
+  .cart-row-name{font-size:.88rem;font-weight:600;}
+  .cart-row-sub{font-size:.83rem;color:var(--ink-soft);margin-top:2px;}
+  .cart-row-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+    flex:none;
+  }
+  .cart-row-price{font-size:.9rem;font-weight:700;color:var(--navy);white-space:nowrap;}
+  .cart-row-controls{
+    display:flex;
+    align-items:center;
+    background:var(--paper);
+    border-radius:9px;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .cart-qty-btn{
+    width:30px;height:30px;
+    border:none;
+    background:transparent;
+    font-size:1rem;
+    color:var(--navy);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .cart-qty-btn:active{background:var(--line);}
+  .cart-qty-btn.remove{color:#b3261e;font-size:1.05rem;}
+  .cart-qty-val{
+    min-width:26px;
+    text-align:center;
+    font-size:.88rem;
+    font-weight:700;
+    color:var(--ink);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    padding:0 4px;
+    height:30px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .modal-foot{
+    padding:16px 20px calc(16px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line);
+  }
+  .modal-total-row{
+    display:flex;justify-content:space-between;
+    font-size:1.15rem;font-weight:800;color:var(--navy);
+    margin-bottom:12px;
+  }
+  .confirm-btn{
+    width:100%;
+    background:var(--green);
+    color:#fff;border:none;border-radius:12px;
+    padding:14px;font-size:1rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    cursor:pointer;
+  }
+  .empty-cart{
+    text-align:center;color:var(--ink-soft);padding:40px 10px;font-size:.9rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>GP Distribuciones</h1>
+  <p>Elegí tus productos y armá tu pedido</p>
+  <!-- Cuadro de texto dinámico desde la celda D1 de Google Sheets -->
+  <div class="stock-notice-banner" id="stockNoticeBanner"></div>
+</header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="searchInput" type="text" placeholder="Buscar producto..." autocomplete="off">
+    <button class="clear-btn" id="clearBtn">✕</button>
+  </div>
+</div>
+
+<div class="meta-row">
+  <span id="resultCount"></span>
+  <span>Precios con IVA incluido</span>
+</div>
+<div id="syncStatus" style="display:none;margin:0 20px 8px;padding:8px 12px;border-radius:8px;font-size:.78rem;line-height:1.4;"></div>
+
+<div id="offersSection" style="display:none;">
+  <div class="offers-head">
+    <span class="offers-fire">🔥</span>
+    <span>Ofertas de esta semana</span>
+  </div>
+  <div class="offers-track" id="offersTrack"></div>
+</div>
+
+<main id="productList"></main>
+<div class="no-results" id="noResults" style="display:none;">No se encontraron productos.</div>
+
+<div class="cart-bar hidden" id="cartBar">
+  <div class="cart-summary">
+    <p class="count" id="cartCount">0 artículos</p>
+    <p class="total" id="cartTotal">$0</p>
+  </div>
+  <button class="send-btn" id="viewCartBtn">
+    Ver pedido
+  </button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Tu pedido</h2>
+      <button id="closeModal">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <div class="modal-total-row">
+        <span>Total</span>
+        <span id="modalTotal">$0</span>
+      </div>
+      <button class="confirm-btn" id="sendWhatsapp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.05 4c-4.87 0-8.84 3.97-8.84 8.84 0 1.56.41 3.08 1.19 4.42L3.2 21.5l4.34-1.14a8.85 8.85 0 0 0 4.5 1.23h.01c4.87 0 8.84-3.97 8.84-8.84 0-2.36-.92-4.58-2.29-6.43zm-5.55 13.6h-.01c-1.4 0-2.78-.38-3.98-1.09l-.29-.17-2.96.78.79-2.88-.19-.3a7.36 7.36 0 0 1-1.13-3.92c0-4.06 3.31-7.37 7.38-7.37 1.97 0 3.82.77 5.21 2.16a7.32 7.32 0 0 1 2.16 5.22c0 4.07-3.31 7.37-7.38 7.37zm4.04-5.52c-.22-.11-1.3-.64-1.5-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.11-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.5-1.21-.69-1.66-.18-.43-.36-.38-.5-.38-.13 0-.28-.01-.43-.01-.15 0-.39.06-.6.28-.2.22-.79.77-.79 1.87s.81 2.17.92 2.32c.11.15 1.6 2.44 3.87 3.42.54.23.96.37 1.29.48.54.17 1.03.15 1.42.09.43-.06 1.3-.53 1.49-1.04.18-.51.18-.95.13-1.04-.05-.09-.2-.15-.42-.26z"/></svg>
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+let PRODUCTS = [];
+const SHEET_ID = "1Eiz9HNsQT78lrJeqjrRrp4E9JOZSBQgh";
+const SHEET_GID = "0";
+const SHEET_URLS = [
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}&_=`,
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}&_=`
+];
+const FALLBACK_PRODUCTS = [{"n": "102 ANOS MUJER X30 COMPRIM", "p": 23140}, {"n": "102 ANOS PLUS X 30 COMPRIMIDOS", "p": 19500}, {"n": "ACTRON 400 X 20 CAPSULAS", "p": 7800}, {"n": "ACTRON 600 X 20 CAPSULAS", "p": 17550}, {"n": "ACTRON MIGRA X 10 CAPSULAS", "p": 5304}, {"n": "ACTRON MUJER X 10 CAPSULAS", "p": 4485}, {"n": "ALERMUC X 10 COMP", "p": 5005}, {"n": "ALIKAL SABOR X30", "p": 29575}, {"n": "ALIKAL TRADICIONAL X30", "p": 29575}, {"n": "ASPIRINA PREVENT X 50", "p": 10920}, {"n": "ASPIRINA V3 NINOS X 100", "p": 5850}, {"n": "ASPIRINETAS X 28", "p": 2580}, {"n": "ASPIRINETAS X 98", "p": 7800}, {"n": "ATOMO DESINFLAM.FORTE X 100 GR", "p": 23400}, {"n": "ATOMO X 110 GRS", "p": 18200}, {"n": "BAYASPIRINA C FRIA X 24 SOBRES", "p": 36140}, {"n": "BAYASPIRINA C X 24 CALIENTE", "p": 44590}, {"n": "BAYASPIRINA FORTE X 20 COMP.", "p": 6630}, {"n": "BAYASPIRINA X 30 COMP.", "p": 7514}, {"n": "BENGUE POTE 150 GRAMOS", "p": 21840}, {"n": "BUSCAPINA DUO GOTAS X 20 ML", "p": 15372}, {"n": "BUSCAPINA DUO X 10 COMPRIMIDOS", "p": 10140}, {"n": "BUSCAPINA DUO X 20 COMPRIMIDOS", "p": 20280}, {"n": "BUSCAPINA DUO X 60 COMPRIMIDOS", "p": 60840}, {"n": "BUSCAPINA FEM X 6", "p": 5200}, {"n": "BUSCAPINA PERLAS X 10", "p": 7475}, {"n": "BUSCAPINA PERLAS X 20", "p": 14950}, {"n": "BUSCAPINA PERLAS X 50", "p": 36660}, {"n": "CAFIASPIRINA X 30 COMP.", "p": 8944}, {"n": "CARAMELOS GARGAMPROLX100GRS", "p": 4252}, {"n": "CARAMELOS GRIPABEN X 9 UNID", "p": 3975}, {"n": "CHICLE LAXANTE KRITEL X 6", "p": 5200}, {"n": "DICLOFENC+B12 X 15 COMPRIMIDO", "p": 16770}, {"n": "DORIXINA X 10 COMPRIMIDOS", "p": 4275}, {"n": "FABOG.400 X 10 CAPSULAS BLAND.", "p": 2400}, {"n": "FABOG.400 X 20 CAPSULAS BLAND.", "p": 4160}, {"n": "FABOG.600 X 20 CAPSULAS BLAND.", "p": 8060}, {"n": "FABOGESIC IBUPROF 4 % JARABE", "p": 6175}, {"n": "GENIOL PLUS X 12 CAPSULAS", "p": 4160}, {"n": "GRIPABEN DESONG.TE X 50 SOBRES", "p": 78000}, {"n": "GRIPABEN PLUS X 20 COMPRIMIDOS", "p": 5850}, {"n": "HEPATALGINA X45 ML", "p": 9100}, {"n": "IBU EVANOL FORTE X 20 CAPSULAS", "p": 8034}, {"n": "IBU EVANOL MAX X 20 CAPSULAS", "p": 9815}, {"n": "IBU EVANOL PLUS X 20 CAPSULAS", "p": 7176}, {"n": "IBU EVANOL RAP.ACC.X 20 CAPS.", "p": 6240}, {"n": "IBU EVANOL ULTRA X 20 CAPSULAS", "p": 13000}, {"n": "IBUPROF JAR 4 % EST/KLONAL", "p": 2700}, {"n": "MEJORAL NINOS X 20 COMPRIMIDOS", "p": 7345}, {"n": "MEJORAL NINOS X 30 BLISTER", "p": 105950}, {"n": "MIGRAL 500 COMPRIMIDOS X 100", "p": 58045}, {"n": "MIGRAL 500 X 10 COMPRIMIDOS", "p": 6045}, {"n": "MIGRAL COMPUESTO X 100 COMP", "p": 59540}, {"n": "MIGRAL CTO X 10 COMPRIMIDOS", "p": 6175}, {"n": "MUELITA TRADICINAL GOTAS", "p": 13650}, {"n": "MYLANTA X 8 frutal", "p": 5395}, {"n": "NEXT EXP X 10 X 20 BLISTERS", "p": 97500}, {"n": "NEXT FORTE TE X 10 SOBRES", "p": 26000}, {"n": "NEXT PLUS X 20 COMPRIMIDOS", "p": 9750}, {"n": "NEXT TE X 1 SOBRES", "p": 3150}, {"n": "NEXT X 10 COMPRIMIDOS", "p": 4875}, {"n": "NORGESTREL MAX DIA DESPUES X 1", "p": 3975}, {"n": "NORGESTREL PLUS X21", "p": 7345}, {"n": "NOVALGINA JARABE X 100 ML", "p": 15405}, {"n": "NOVALGINA X 10 COMPRIMIDOS", "p": 5850}, {"n": "NUEVAPINA CARDIO X 50 COMP", "p": 4500}, {"n": "P.E.", "p": 1500}, {"n": "PALATROBIL COMP X 20", "p": 10530}, {"n": "PALATROBIL GOTAS X 45 ML", "p": 7800}, {"n": "PALATROBIL TE HIERBAS X 25S", "p": 6500}, {"n": "QURA PLUS X 20 COMPRIMIDOS", "p": 11180}, {"n": "REFENAX COLIRIO X 15 ML", "p": 10530}, {"n": "REFENAX GOTAS NASALES", "p": 5655}, {"n": "REFRIANEX CTO X 20 COMP", "p": 10790}, {"n": "REFRIANEX X 20 COMP", "p": 9750}, {"n": "RENNIE X 96 UNIDADES", "p": 57915}, {"n": "RENNIE X12", "p": 7358}, {"n": "RESAQUIT X12 COMPRIMIDOS", "p": 8450}, {"n": "SERTAL CTO X 200", "p": 185250}, {"n": "SERTAL CTO X10", "p": 9360}, {"n": "SERTAL PERLAS X 10", "p": 6500}, {"n": "SOBRES GRIPABEN TE X 1", "p": 2400}, {"n": "SOBRES VICK VIT COMUN X 1", "p": 3000}, {"n": "SOBRES VICK VITAP FORTEX 1", "p": 3300}, {"n": "TABCIN ANTIGRIPAL X 20 CAP", "p": 9295}, {"n": "TABCIN COMPSTO ( VERDE) X 20", "p": 9945}, {"n": "TABLETA TAFIROL 500 X 10", "p": 2550}, {"n": "TAFIROL 1 GR. X 24 COMPRIMIDOS", "p": 8450}, {"n": "TAFIROL 1 GR. X 8 COMPRIMIDOS", "p": 3255}, {"n": "TAFIROL 500 EXPEN. X 40 BLIST.", "p": 91000}, {"n": "TAFIROL 500 X 100 COMP.", "p": 21450}, {"n": "TAFIROL 650 FORTE EXPEN.X 30 B", "p": 84500}, {"n": "TAFIROL 650 FORTE X 30 COMP.", "p": 8450}, {"n": "TAFIROL DUO X 10 COMPRIMIDOS", "p": 5980}, {"n": "TAFIROL FEM X 10 COMPRIMIDOS", "p": 5460}, {"n": "TAFIROL MIGRA X 10 COMPRIMIDOS", "p": 7020}, {"n": "TAFIROL PLUS FORTE X 8 CAPS", "p": 5850}, {"n": "TAFIROL PLUS X 16 CAPSULAS", "p": 7150}, {"n": "TAFIROL PLUS X 24 CAPSULAS", "p": 10725}, {"n": "TAFIROL PLUS X 30 BLISTERS", "p": 97500}, {"n": "TAFIROL PLUS X 8 CAPSULAS", "p": 3750}, {"n": "TAFIROL RESACA X 8 COMPRIMIDOS", "p": 4745}, {"n": "TAFIROLITO 80 MG X 20 COMPRIM.", "p": 8060}, {"n": "TETRALGIN X 10 COMP.", "p": 6435}, {"n": "TOSTOP ADULTO JARABE", "p": 7865}, {"n": "TOSTOP NINOS JARABE", "p": 7865}, {"n": "UVASAL X30 NARANJA", "p": 17654}, {"n": "UVASAL X30 TRADICIONAL", "p": 17654}, {"n": "VICK VAPORU LATA X 12 GR", "p": 6175}, {"n": "VICK VITAP.COMUN X 50 SOBRES", "p": 123500}, {"n": "VICK VITAP.FORTE X 50 SOBRES", "p": 143000}, {"n": "WUNDERSBALSAMS X 100 ML", "p": 9750}, {"n": "ALLOPURINOL 300 X 10 COMP", "p": 4500}, {"n": "ALMAXIMO 100 X 2 COMPRIMIDOS", "p": 2800}, {"n": "ALMAXIMO 100 X 2 MASTICABLES", "p": 2400}, {"n": "ALMAXIMO 100 X 20 COMPRIMIDOS", "p": 18200}, {"n": "ALMAXIMO 100 x 20 MASTICABLES", "p": 20150}, {"n": "ALMAXIMO 36 TALADAFILO X 2 U", "p": 10400}, {"n": "ALMAXIMO 36 x 8 COMPRIMIDOS", "p": 41600}, {"n": "ALMAXIMO 50 X 2 COMPRIMIDOS", "p": 2160}, {"n": "ALMAXIMO 50 X 2 MASTICABLES", "p": 2160}, {"n": "ALMAXIMO 50 X 20 COMPRIMIDOS", "p": 13780}, {"n": "ALMAXIMO 50 X 20 MASTICABLES", "p": 14040}, {"n": "AMOXICILINA 250JARABE X90 ML.", "p": 4125}, {"n": "AMOXICILINA 500 JARABE X 90 ML", "p": 5005}, {"n": "AMOXICILINA 500 MG X 80 COMP", "p": 16250}, {"n": "AMOXICILINA 500 X 8 COMPRIMI.", "p": 2550}, {"n": "AZITROMICINA X 3 COMPRIMIDOS", "p": 2475}, {"n": "BETAMETASONA GOTAS 15 ML", "p": 2000}, {"n": "BROMHEXINA JARABE AD.SIN/EST", "p": 2500}, {"n": "BROMHEXINA PEDIA. JARABE S/EST", "p": 2500}, {"n": "CARBON VEGETEAL VENT3 X 10 COM", "p": 3000}, {"n": "CEFALEXINA 500 X 8 COMPRI.", "p": 2625}, {"n": "CEFALEXINA 500 MG X 80 COMP", "p": 22750}, {"n": "CEFALEXINA 500 X 90ML", "p": 5850}, {"n": "CIPROFLOXACINA X 10 comprimido", "p": 3000}, {"n": "DEXAMETASONA X 10 COMPRIMIDOS", "p": 1700}, {"n": "DICLOF. 100 MG X 15 CAPSULAS", "p": 1900}, {"n": "DICLOF. 75 MG. X 15 FABOP", "p": 1500}, {"n": "DICLOF.75 X 15 X 20 BLISTERS", "p": 18200}, {"n": "DICLOFENAC CB 75 MG X 10 CAPS", "p": 6045}, {"n": "DICLOFENAC GEL CON ESTUCHE KL.", "p": 4550}, {"n": "DICLOFENAC GEL TRB", "p": 4550}, {"n": "DICLOFENAC RELAX X 10 SAVANT", "p": 1650}, {"n": "DICLOFENAC RELAX X 90 SAVANT", "p": 6045}, {"n": "DIFENHIDRAMINA JBE x 120 ml", "p": 3750}, {"n": "DIPIRONA JARABE X 100 ML", "p": 4200}, {"n": "ENALAPRIL 10 MG X 10 COM. LAZA", "p": 2500}, {"n": "ENALAPRIL 10MG X 90 COMP FABOP", "p": 6435}, {"n": "ENALAPRIL 10MG. X 10 COM. FABO", "p": 1650}, {"n": "ENALAPRIL 20 MG X 10 COMP LAZA", "p": 3000}, {"n": "FLUCONAZOL X 2", "p": 1500}, {"n": "IBUPROF JAR 2% SIN/ ESTUCHE", "p": 1940}, {"n": "IBUPROF JAR 4 % SIN ESTUCHE", "p": 2500}, {"n": "IBUPROFENO 400 X 10 FABOGE.COM", "p": 1560}, {"n": "IBUPROFENO 400 X 10 VENT3", "p": 1500}, {"n": "IBUPROFENO 400 X 60 FABOG COM.", "p": 4030}, {"n": "IBUPROFENO 600 X 10 BIOTENK", "p": 1650}, {"n": "IBUPROFENO 600 X 10 FABOGESIC", "p": 1600}, {"n": "IBUPROFENO 600 X 10 IBUXIM", "p": 1860}, {"n": "IBUPROFENO 600 X 10 X 36 FABOG", "p": 37050}, {"n": "IBUPROFENO 600 X 90 IBUXIM", "p": 7020}, {"n": "KETOROLAC 20 MG X 10 MICROSUL", "p": 1800}, {"n": "LOPERAMIDA 2 MG X 10 COMPRIMID", "p": 1500}, {"n": "LORATADINA COMP S/E x 10", "p": 1650}, {"n": "LORATADINA JBE ESTUCHADO X 90", "p": 3975}, {"n": "LOSARTAN 50MG X 10 COMPRIMIDOS", "p": 1600}, {"n": "MEBENDAZOL COMPRIMIDOS X 6", "p": 3750}, {"n": "MEBENDAZOL JARABE X 30 ML", "p": 3750}, {"n": "MIKLOGEN CREMA KLONAL", "p": 4125}, {"n": "NAPROXENO VANIER X 10", "p": 4275}, {"n": "OMEPRAZOL 20 MG CAPSULAS", "p": 1950}, {"n": "PARACET.VENT3 PLUS TE X 1 SOBR", "p": 1800}, {"n": "PARACET.VENT3 TE X 1 SOBRE", "p": 1600}, {"n": "PARACET.VENT3 TE X 50 SOBRES", "p": 52000}, {"n": "PARACETAMOL GOTAS x 20 ml", "p": 2700}, {"n": "PARACETAMOL VENT3 500 X 10 COM", "p": 1800}, {"n": "PENICILINA 1.000.000 X 6 COMP.", "p": 3750}, {"n": "PENICILINA 1.500.000 X 6 COMP", "p": 4550}, {"n": "PIROXICAN X 10 COMPRIMIDOS", "p": 1260}, {"n": "SALBUTAMOL GOTAS", "p": 1600}, {"n": "VITACORTIL CREMA X 20 GRAMOS", "p": 8450}, {"n": "AFEITA BIC AMARILLA X 24 UN", "p": 11050}, {"n": "AFEITA BIC CONFORT 2 X 24 UN", "p": 20800}, {"n": "AFEITA BIC CONFORT 3 X 12 UN", "p": 15600}, {"n": "AGUA OXIGENADA X 100 ML", "p": 1500}, {"n": "ALCANFOR X 8 PASTILLAS", "p": 7800}, {"n": "ALCOHOL BORICADO X 30ML", "p": 1800}, {"n": "ALCOHOL EN GEL GESSI X50 GRS", "p": 2800}, {"n": "ALCOHOL PURO X500 ML", "p": 2475}, {"n": "ALCOHOL PURO X 250 ML", "p": 2000}, {"n": "ALGODON DONCELLA X 70 GRS", "p": 1600}, {"n": "ALGODON LIMPIEZA DIARIA X 50 U", "p": 5200}, {"n": "APOSITO CURITAS X 1 CAJA", "p": 3000}, {"n": "APOSITO CURITAS X 24(PACK)", "p": 43680}, {"n": "APOSITOS SYRITAS 20 x 10 UNIDA", "p": 11505}, {"n": "AZUFRE DISMAR X5 UNIDADES", "p": 3000}, {"n": "BANDITAS DE GOMA X 250 UNID", "p": 4420}, {"n": "BARBIJOS DESCARTABLES X 50 UN", "p": 4550}, {"n": "BENGALAS X 4 UNIDADES", "p": 2400}, {"n": "BIROMES BIC CRISTAL X 1 UNIDAD", "p": 1500}, {"n": "BIROMES BIC CRISTAL X 50 UNIDA", "p": 32500}, {"n": "BOLSAS DE RESIDUOS 45X60X10", "p": 1500}, {"n": "BOMBILLA MATE ALPACA X 1", "p": 3525}, {"n": "BOTIQUIN 15 ELEMENTOS", "p": 15600}, {"n": "BROCHE P/ ROPA REFOR X 12 UND", "p": 1760}, {"n": "CEPILLO DE ROPA MADERA", "p": 2400}, {"n": "CEPILLO DE ROPA PL.ZALZANO", "p": 2400}, {"n": "CEPILLO DE ROPA PLANCHITA", "p": 2400}, {"n": "CEPILLO DENTAL COLGATE 14x12", "p": 20150}, {"n": "CEPILLO DENTAL COLGATE X 1", "p": 2500}, {"n": "CINTA DE EMBALAJE X 40 MTROS", "p": 1900}, {"n": "COCOA BEACH AUTOBR.X 130 ML", "p": 13650}, {"n": "COCOA BEACH BRONC F15 X 250GR", "p": 17355}, {"n": "COCOA BEACH BRONC F8 X 250 ML", "p": 15210}, {"n": "COCOA BEACH GEL AFTER SUN X200", "p": 9360}, {"n": "COCOA BEACH GEL AFTERSUN X 250", "p": 10400}, {"n": "COCOA BEACH PROT F 45 X 200ML", "p": 20150}, {"n": "COCOA BEACH PROT.F30 X 200ML", "p": 17290}, {"n": "CREMA OXIDANTE 20 VOL", "p": 3750}, {"n": "CREMA OXIDANTE 30 VOL", "p": 3750}, {"n": "CREMA DENTAL COLGATE X 70 GR", "p": 2700}, {"n": "CREMA DENTAL COLGATE X 90GRS .", "p": 2925}, {"n": "CREMA DENTAL KOLINOS TRIP.X70G", "p": 2325}, {"n": "CREMA DENTAL KOLYNOS X 70 GR", "p": 2625}, {"n": "CUCARACHICIDA RAID AEROSOL", "p": 6500}, {"n": "CUCARACHICIDA SHELTON AEROSOL", "p": 4550}, {"n": "DESINFECTANTE LYSOFORM AEROSOL", "p": 4225}, {"n": "DESOD AMBIEN. POETT/GLADE", "p": 3975}, {"n": "DESODORANTE AXE AEROSOL", "p": 4875}, {"n": "DESODORANTE DOVE ORIGINAL AER", "p": 4940}, {"n": "DESODORANTE ODORONO AEROSOL", "p": 4030}, {"n": "DESODORANTE ODORONO CREMA", "p": 3750}, {"n": "DESODORANTE REXONA MEN AER", "p": 4940}, {"n": "DESODORANTE REXONA WOMAN AERO", "p": 4875}, {"n": "DETERGENTE ALA X 300 ML", "p": 3000}, {"n": "DETERGENTE MAGISTRAL X 225 ML", "p": 2625}, {"n": "DETERGENTE MAGISTRAL X 300ML", "p": 3000}, {"n": "DETERGENTE MAGISTRAL X 500 ML", "p": 4320}, {"n": "ECCOLE PEGAMENTO X 6 UNIDADES", "p": 43160}, {"n": "ECCOLE X 1 UNIDAD", "p": 7215}, {"n": "ENCENDEDORES CANDELA X 25 UNID", "p": 8125}, {"n": "ENCENDEDORES MAXI BIC X 12", "p": 14768}, {"n": "ESCARBADIENTES X 12 UNIDADES", "p": 6500}, {"n": "ESCOBA ECON. PLASTICO S/CABO", "p": 4050}, {"n": "ESCOBILLA BANO C DEPOSITO X 1", "p": 4745}, {"n": "ESCOBILLON GACELA X 1", "p": 3675}, {"n": "ESCOBILLON PUMA", "p": 3675}, {"n": "ESCOBILLON X 1 TIGRE PREMIUM", "p": 4500}, {"n": "ESCURRIDOR DOBLE GOMA RAYITA X", "p": 3375}, {"n": "ESPIRAL MATIRIS X 50 X 4 UNID.", "p": 32500}, {"n": "ESPIRAL RAID x 12 UNIDADES", "p": 3300}, {"n": "ESPIRAL RAID X 12 X 4 UNIDADES", "p": 11440}, {"n": "ESPIRALES MATIRIS X 4 UNIDADES", "p": 1500}, {"n": "ESPONJA DE ACERO DORADA X 13G", "p": 1350}, {"n": "ESPONJA DE ACERO PLATEADA", "p": 1050}, {"n": "ESPONJA FIBRA BATUQUE X 1", "p": 900}, {"n": "FASTIX X 1 UNIDAD", "p": 6695}, {"n": "FASTIX X 6 UNIDADES(AMARILLO)", "p": 40040}, {"n": "FOSFORO 3 PATITOS X10X222U", "p": 7800}, {"n": "FRASCO ESTERIL X 1", "p": 1500}, {"n": "FUYI VAPE X 24 PASTILLA", "p": 4160}, {"n": "GASA 10 X 10 X 10CAJA", "p": 4500}, {"n": "GEL INTIMO LUBRICANTE FALIC PO", "p": 11050}, {"n": "GEL/FIJADOR ALGABO X 150 GS", "p": 3540}, {"n": "GLOBOS SURTIDOS CANDELA X 50 U", "p": 4050}, {"n": "GUANTES DE EXAMEN LATEX X100 U", "p": 6500}, {"n": "GUANTES DE LIMPIESA CH /M/G", "p": 3435}, {"n": "GUANTES DE NITRILO NEGRO T M/L", "p": 11050}, {"n": "HISOPO ALGABO X 125 UNID.", "p": 2700}, {"n": "HISOPO DONCELLA X 100 UNIDADES", "p": 2700}, {"n": "HOJAS DE AFEITAR X 10 UNIDADES", "p": 3000}, {"n": "INSECTICIDA FUYI AEROSOL 360cm", "p": 5850}, {"n": "INSECTICIDA RAID AEROSOL", "p": 7150}, {"n": "IODOPOVIDONA SOLUCION X 60 ML", "p": 4940}, {"n": "JABON ALA MATIX X400 GRS", "p": 2500}, {"n": "JABON ALA REG LAV A MAN X 400", "p": 2500}, {"n": "JABON ASTRO BLANCO X 200 GRS", "p": 1650}, {"n": "JABON ASTRO VERDE X 1 UNIDAD", "p": 1200}, {"n": "JABON ASTRO X 200 GRS X 48 UNI", "p": 33150}, {"n": "JABON GIGANTE BLANCO X 150 GRS", "p": 1950}, {"n": "JABON GUAIRA BLANCO X 150 GR", "p": 1400}, {"n": "JABON LUX TOCADOR X 125 GRS", "p": 2500}, {"n": "JABON REXONA X125 GRS", "p": 2300}, {"n": "JABON ZORRO POLVO X400 GR MAT.", "p": 2200}, {"n": "JABON ZORRO REG LAV MANO X 400", "p": 2200}, {"n": "LA GOTITA CANDELA X 6 UNIDADES", "p": 4050}, {"n": "LA GOTITA GEL X 1 UNIDAD", "p": 3825}, {"n": "LA GOTITA GEL X 6 UNIDADES", "p": 19500}, {"n": "LA GOTITA X 1 UNIDAD", "p": 3150}, {"n": "LA GOTITA X 6 UNIDADES", "p": 16250}, {"n": "LANA DE ACERO BATUQUE X 10 ROL", "p": 1500}, {"n": "LANA DE ACERO VIRULANA X 6 ROL", "p": 2500}, {"n": "LECHE LA LECHERA 800 GRS", "p": 10400}, {"n": "LECHE NIDO X 750 GRS", "p": 11700}, {"n": "MAMADERA ECONOMICA X 250 ML", "p": 1800}, {"n": "MAMADERA TOMASOLITO X 200ML", "p": 2500}, {"n": "MANTECA DE CACAO PIEL BB X1", "p": 2000}, {"n": "NAIPES CUATRO PALOS X 50", "p": 1500}, {"n": "NAIPES HACHAZO x 50 UNIDADES", "p": 1900}, {"n": "P.21", "p": 1815}, {"n": "PALITA P BASURAS", "p": 2070}, {"n": "PANAL PAMPER NUEVA PRES.P/G/XG", "p": 4680}, {"n": "PANUELOS DESC.DISMAR X 6 UNID.", "p": 2200}, {"n": "PANUELOS ELITE X 6 UNIDADES", "p": 2500}, {"n": "PILAS AA DURACEL X 2", "p": 3750}, {"n": "PILAS AAA DURACEL X 2", "p": 3750}, {"n": "PILAS EVEREADY AA X 4 UNIDADES", "p": 3900}, {"n": "PILAS EVEREADY AA X 60 UNIDAD.", "p": 46800}, {"n": "PILAS EVEREADY AAA X 2 UNIDAD.", "p": 2800}, {"n": "PILAS EVEREADY AAA X 24 UNIDAD", "p": 20280}, {"n": "POMADA PARA CAL.WASSI.NEGR/MAR", "p": 4500}, {"n": "POMADA PARA CALSADO MACAO", "p": 2325}, {"n": "POXILINA X 1 UNIDAD", "p": 7670}, {"n": "POXILINA X 6 UNIDADES", "p": 45825}, {"n": "POXIPOL x 1 UNIDAD", "p": 7800}, {"n": "POXIPOL X 6 UNIDADES", "p": 45370}, {"n": "POXIRRAN X 6 UNIDADES", "p": 31980}, {"n": "POXIRRAN X 1 UNIDAD", "p": 5330}, {"n": "PRESERV. CAMALEON X3X12 UNID.", "p": 22750}, {"n": "PRESERV. TULIPAN 16 X 3 UNIDAD", "p": 41145}, {"n": "PRESERV. TULIPAN 26 UNIDADES", "p": 61750}, {"n": "PRESERV. TULIPAN X 1 X 3 UNIDA", "p": 3000}, {"n": "PROTECTORES CALIPSOX20", "p": 1760}, {"n": "PROTECTORES DONCELLA X 20 UNID", "p": 1760}, {"n": "PROTECTORES LADYSOFT X 20 UNID", "p": 2570}, {"n": "PROTECTORES LINA X 20 UNID", "p": 2000}, {"n": "QUITA ESMALTE CUTEX X 50 ML", "p": 2700}, {"n": "QUITA ESMALTE CUTEX X100 ML", "p": 3975}, {"n": "QUITA ESMALTE ECO ALGABO X50ML", "p": 2600}, {"n": "QUITA ESMALTE ECO ALGABOX100ML", "p": 2700}, {"n": "REPELENTE VAIS SPRAY X 200ML", "p": 4550}, {"n": "REPELENTE AKTIOL AER.X 143 ML", "p": 4125}, {"n": "REPELENTE OFF AEROSOL X 170 GS", "p": 6500}, {"n": "REPELENTE OFF CREMA x 196 gr", "p": 6500}, {"n": "REPELENTE OFF X 60 GRS", "p": 4200}, {"n": "REPELENTE VAIS AEROSOL X 140 G", "p": 5200}, {"n": "REPELENTE VAIS CREMA X 200 ML", "p": 4550}, {"n": "REPELENTE VAIS KIDS SPAY", "p": 5850}, {"n": "SEDAL ACONDICIONADOR x 24 SOB", "p": 7020}, {"n": "SEDAL SHAMPU X 24 SOBRES", "p": 7020}, {"n": "SOLUCION FISIOLOGICA X 100 ML", "p": 1500}, {"n": "SOPAPA C/CABO DESTAPA CA;ERIA", "p": 2850}, {"n": "SULFATEAZOL TALCO X 4 GR", "p": 3965}, {"n": "TALCO EFICIENT REXONA X 100GR", "p": 4225}, {"n": "TALONARIOS DE PRESUPUESTO P/PE", "p": 3000}, {"n": "TELA ADHESIVA CH.HIP.X1,25X9M", "p": 1500}, {"n": "TELA ADHESIVA MED.HIP2,5X9M", "p": 2200}, {"n": "TEST DE EMBARAZO X 1", "p": 1400}, {"n": "TETINA SILICONA X10", "p": 2400}, {"n": "TINTURA 317 KIT COLOR", "p": 4425}, {"n": "TINTURA IODO DEBIL X60 ML", "p": 7800}, {"n": "TINTURA ROJASTIOMEROSAL X60 ML", "p": 3750}, {"n": "TOALL HUMEDAS CANDY BABY X 50", "p": 2900}, {"n": "TOALLITA CALYPSO VER.POK.ALAX8", "p": 1600}, {"n": "TOALLITA DONCELLA C /ALAS", "p": 1560}, {"n": "TOALLITA DONCELLA NOCTURNA X8", "p": 2600}, {"n": "TOALLITA LADYSOFT ALAS", "p": 1600}, {"n": "TOALLITA SIEMPRE LIBRE X8", "p": 2325}, {"n": "TRAPO DE PISO GRIS ALGODON", "p": 2100}, {"n": "UNIPOX X 6 UNIDADES", "p": 17290}, {"n": "UNIPOX X 1 UNIDAD", "p": 3375}, {"n": "VELAS CORTAS VELUZ X 50 X 4 UN", "p": 29250}, {"n": "VELAS LARGAS VELUZ X 1 UNIDAD", "p": 1400}, {"n": "VELAS LARGAS VELUZ X 25 UNIDAD", "p": 22750}, {"n": "VELAS VELUZ CORTAS X 1 UNIDAD", "p": 1350}];
+
+const WHATSAPP_NUMBER = "5493757527231";
+
+let cart = {}; // { index: qty }
+
+const listEl = document.getElementById('productList');
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+const resultCount = document.getElementById('resultCount');
+const noResults = document.getElementById('noResults');
+const cartBar = document.getElementById('cartBar');
+const cartCount = document.getElementById('cartCount');
+const cartTotal = document.getElementById('cartTotal');
+const overlay = document.getElementById('overlay');
+const modalBody = document.getElementById('modalBody');
+const modalTotal = document.getElementById('modalTotal');
+
+function money(n){
+  return '$' + n.toLocaleString('es-AR', {maximumFractionDigits:0});
+}
+
+function normalize(s){
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function renderOffers(){
+  const offersSection = document.getElementById('offersSection');
+  const track = document.getElementById('offersTrack');
+  const offers = [];
+  PRODUCTS.forEach((prod, idx) => { if(prod.o) offers.push({ prod, idx }); });
+
+  if(offers.length === 0){
+    offersSection.style.display = 'none';
+    return;
+  }
+  offersSection.style.display = 'block';
+
+  track.innerHTML = offers.map(({prod, idx}) => {
+    const qty = cart[idx] || 0;
+    return `
+      <div class="offer-card">
+        <span class="offer-badge">OFERTA</span>
+        <p class="offer-name">${prod.n}</p>
+        <p class="offer-price">${money(prod.p)}</p>
+        <button class="offer-add${qty > 0 ? ' added' : ''}" data-idx="${idx}">
+          ${qty > 0 ? `✓ En el carrito (${qty})` : '+ Agregar'}
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  track.querySelectorAll('.offer-add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      addOneFromOffer(idx);
+    });
+  });
+}
+
+function addOneFromOffer(idx){
+  const newQty = (cart[idx] || 0) + 1;
+  cart[idx] = newQty;
+  const row = listEl.querySelector(`.product[data-idx="${idx}"]`);
+  if(row){
+    const input = row.querySelector('.qty-val');
+    if(input) input.value = newQty;
+    row.classList.add('active');
+  }
+  updateCartBar();
+  renderOffers();
+}
+
+function renderList(filter){
+  const q = normalize(filter || '');
+  listEl.innerHTML = '';
+  let shown = 0;
+  PRODUCTS.forEach((prod, idx) => {
+    if(q && !normalize(prod.n).includes(q)) return;
+    shown++;
+    const qty = cart[idx] || 0;
+    const row = document.createElement('div');
+    row.className = 'product' + (qty > 0 ? ' active' : '');
+    row.dataset.idx = idx;
+    row.innerHTML = `
+      <div class="p-info">
+        <p class="p-name">${prod.n}</p>
+        <p class="p-price">${money(prod.p)}</p>
+      </div>
+      <div class="p-controls">
+        <button class="qty-btn minus" aria-label="Restar">−</button>
+        <input class="qty-val" type="number" min="0" value="${qty}" inputmode="numeric">
+        <button class="qty-btn plus" aria-label="Sumar">+</button>
+      </div>
+    `;
+    const minusBtn = row.querySelector('.minus');
+    const plusBtn = row.querySelector('.plus');
+    const input = row.querySelector('.qty-val');
+
+    minusBtn.addEventListener('click', () => setQty(idx, (cart[idx]||0) - 1, row, input));
+    plusBtn.addEventListener('click', () => setQty(idx, (cart[idx]||0) + 1, row, input));
+    input.addEventListener('change', () => {
+      let v = parseInt(input.value, 10);
+      if(isNaN(v) || v < 0) v = 0;
+      setQty(idx, v, row, input);
+    });
+
+    listEl.appendChild(row);
+  });
+
+  resultCount.textContent = filter ? `${shown} resultado${shown===1?'':'s'}` : `${PRODUCTS.length} productos`;
+  noResults.style.display = shown === 0 ? 'block' : 'none';
+}
+
+function setQty(idx, val, row, input){
+  if(val <= 0){
+    delete cart[idx];
+    val = 0;
+  } else {
+    cart[idx] = val;
+  }
+  input.value = val;
+  row.classList.toggle('active', val > 0);
+  updateCartBar();
+  if(PRODUCTS[idx] && PRODUCTS[idx].o) renderOffers();
+}
+
+function cartEntries(){
+  return Object.entries(cart).map(([idx, qty]) => ({
+    idx: Number(idx),
+    qty,
+    prod: PRODUCTS[idx]
+  }));
+}
+
+function cartTotalAmount(){
+  return cartEntries().reduce((sum, e) => sum + e.prod.p * e.qty, 0);
+}
+
+function updateCartBar(){
+  const entries = cartEntries();
+  const totalItems = entries.reduce((s,e)=>s+e.qty,0);
+  const total = cartTotalAmount();
+  if(totalItems === 0){
+    cartBar.classList.add('hidden');
+  } else {
+    cartBar.classList.remove('hidden');
+    cartCount.textContent = `${totalItems} artículo${totalItems===1?'':'s'}`;
+    cartTotal.textContent = money(total);
+  }
+  if(overlay.classList.contains('show')) renderModal();
+}
+
+function renderModal(){
+  const entries = cartEntries();
+  if(entries.length === 0){
+    modalBody.innerHTML = '<div class="empty-cart">Todavía no agregaste productos.</div>';
+  } else {
+    modalBody.innerHTML = entries.map(e => `
+      <div class="cart-row" data-idx="${e.idx}">
+        <div class="cart-row-info">
+          <div class="cart-row-name">${e.prod.n}</div>
+          <div class="cart-row-sub">${money(e.prod.p)} c/u</div>
+        </div>
+        <div class="cart-row-right">
+          <div class="cart-row-price">${money(e.prod.p * e.qty)}</div>
+          <div class="cart-row-controls">
+            <button class="cart-qty-btn remove" data-action="remove" data-idx="${e.idx}" aria-label="Quitar">🗑</button>
+            <button class="cart-qty-btn" data-action="minus" data-idx="${e.idx}" aria-label="Restar">−</button>
+            <span class="cart-qty-val">${e.qty}</span>
+            <button class="cart-qty-btn" data-action="plus" data-idx="${e.idx}" aria-label="Sumar">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    modalBody.querySelectorAll('.cart-qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.idx);
+        const action = btn.dataset.action;
+        const current = cart[idx] || 0;
+        if(action === 'remove'){
+          updateQuantityGlobal(idx, 0);
+        } else if(action === 'minus'){
+          updateQuantityGlobal(idx, current - 1);
+        } else if(action === 'plus'){
+          updateQuantityGlobal(idx, current + 1);
+        }
+      });
+    });
+  }
+  modalTotal.textContent = money(cartTotalAmount());
+}
+
+function updateQuantityGlobal(idx, newVal){
+  if(newVal <= 0){
+    delete cart[idx];
+    newVal = 0;
+  } else {
+    cart[idx] = newVal;
+  }
+  const row = listEl.querySelector(`.product[data-idx="${idx}"]`);
+  if(row){
+    const input = row.querySelector('.qty-val');
+    if(input) input.value = newVal;
+    row.classList.toggle('active', newVal > 0);
+  }
+  if(PRODUCTS[idx] && PRODUCTS[idx].o) renderOffers();
+  updateCartBar();
+}
+
+document.getElementById('viewCartBtn').addEventListener('click', () => {
+  renderModal();
+  overlay.classList.add('show');
+});
+document.getElementById('closeModal').addEventListener('click', () => {
+  overlay.classList.remove('show');
+});
+overlay.addEventListener('click', (e) => {
+  if(e.target === overlay) overlay.classList.remove('show');
+});
+
+searchInput.addEventListener('input', () => {
+  clearBtn.classList.toggle('show', searchInput.value.length > 0);
+  renderList(searchInput.value);
+});
+clearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  clearBtn.classList.remove('show');
+  renderList('');
+  searchInput.focus();
+});
+
+document.getElementById('sendWhatsapp').addEventListener('click', () => {
+  const entries = cartEntries();
+  if(entries.length === 0) return;
+  let msg = '¡Hola! Quiero hacer el siguiente pedido:%0A%0A';
+  entries.forEach(e => {
+    msg += `• ${e.prod.n} — Cant: ${e.qty} — ${money(e.prod.p * e.qty)}%0A`;
+  });
+  msg += `%0A*Total: ${money(cartTotalAmount())}*`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+  window.open(url, '_blank');
+});
+
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for(let i = 0; i < text.length; i++){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if(c === '"') inQuotes = true;
+      else if(c === ','){ row.push(field); field = ''; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+      else if(c === '\r'){ /* skip */ }
+      else field += c;
+    }
+  }
+  if(field.length > 0 || row.length > 0){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+function parsePrice(raw){
+  let s = (raw || '').replace(/[^\d.,\-]/g, '');
+  if(!s) return NaN;
+  const hasComma = s.includes(',');
+  const hasDot = s.includes('.');
+  if(hasComma && hasDot){
+    const lastComma = s.lastIndexOf(',');
+    const lastDot = s.lastIndexOf('.');
+    if(lastComma > lastDot){
+      s = s.replace(/\./g, '').replace(',', '.');
+    } else {
+      s = s.replace(/,/g, '');
+    }
+  } else if(hasComma){
+    const parts = s.split(',');
+    const lastPart = parts[parts.length - 1];
+    if(parts.length > 2 || lastPart.length === 3){
+      s = s.replace(/,/g, '');
+    } else {
+      s = s.replace(',', '.');
+    }
+  } else if(hasDot){
+    const parts = s.split('.');
+    const lastPart = parts[parts.length - 1];
+    if(parts.length > 2 || lastPart.length === 3){
+      s = s.replace(/\./g, '');
+    }
+  }
+  return parseFloat(s);
+}
+
+function csvToProducts(text){
+  const rows = parseCSV(text).filter(r => r.length >= 2 && r[0] && r[0].trim());
+  
+  // Extraer el mensaje de aviso desde la celda D1 (fila 0, columna 3)
+  const stockBanner = document.getElementById('stockNoticeBanner');
+  if(rows[0] && rows[0][3] && rows[0][3].trim().length > 0){
+    stockBanner.textContent = rows[0][3].trim();
+    stockBanner.style.display = 'block';
+  } else {
+    stockBanner.style.display = 'none';
+  }
+
+  // Omitir fila de encabezados si tiene títulos
+  let start = 0;
+  if(rows[0] && /producto/i.test(rows[0][0])) start = 1;
+  const out = [];
+  for(let i = start; i < rows.length; i++){
+    const name = (rows[i][0] || '').trim();
+    const price = parsePrice(rows[i][1]);
+    const offerRaw = (rows[i][2] || '').trim().toLowerCase();
+    const isOffer = /^(si|sí|x|1|true|oferta)$/.test(offerRaw);
+    if(name && !isNaN(price)){
+      out.push({ n: name, p: Math.round(price), o: isOffer });
+    }
+  }
+  return out;
+}
+
+function setSyncStatus(ok, detail){
+  const el = document.getElementById('syncStatus');
+  el.style.display = 'block';
+  if(ok){
+    el.style.background = '#e8f7ee';
+    el.style.color = '#1a7a43';
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    el.textContent = `✓ Precios actualizados desde la hoja (${hh}:${mm})`;
+  } else {
+    el.style.background = '#fdeeee';
+    el.style.color = '#b3261e';
+    el.textContent = `⚠ No se pudo conectar con la hoja de precios ahora mismo. Mostrando la última lista guardada en la página. Detalle: ${detail || 'error de red'}`;
+  }
+}
+
+async function loadProducts(){
+  listEl.innerHTML = '<div class="no-results" style="display:block;">Cargando productos...</div>';
+  let lastErr = null;
+  for(const base of SHEET_URLS){
+    try {
+      const url = base + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const parsed = csvToProducts(text);
+      if(parsed.length > 0){
+        PRODUCTS = parsed;
+        setSyncStatus(true);
+        renderList(searchInput.value || '');
+        renderOffers();
+        return;
+      }
+      throw new Error('La hoja respondió pero no se pudieron leer productos.');
+    } catch(err){
+      lastErr = err;
+      console.error('Intento de carga fallido para', base, err);
+    }
+  }
+  PRODUCTS = FALLBACK_PRODUCTS;
+  setSyncStatus(false, lastErr ? lastErr.message : '');
+  renderList(searchInput.value || '');
+  renderOffers();
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>
