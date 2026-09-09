@@ -498,6 +498,67 @@
   .empty-cart{
     text-align:center;color:var(--ink-soft);padding:40px 10px;font-size:.9rem;
   }
+
+
+  /* Ajuste responsive para celulares de distintos tamaños */
+  html{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+  }
+  body{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow-x:hidden;
+  }
+  header, main, .search-wrap, .meta-row, .offers-head, .cart-bar{
+    max-width:100%;
+  }
+  main{
+    width:100%;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .product, .p-info, .p-name, .cart-row, .cart-row-info{
+    min-width:0;
+    max-width:100%;
+  }
+  .p-name, .cart-row-name, .offer-name{
+    overflow-wrap:anywhere;
+    word-break:normal;
+  }
+  img, iframe{
+    max-width:100%;
+  }
+  .search-box, .p-controls, .cart-row-controls{
+    max-width:100%;
+  }
+
+  /* En teléfonos muy angostos, una sola columna evita que el navegador
+     reduzca automáticamente toda la página para intentar encajarla. */
+  @media (max-width:360px){
+    main{
+      grid-template-columns:1fr;
+    }
+    .product{
+      padding:11px;
+    }
+  }
+
+  @media (min-width:361px) and (max-width:480px){
+    main{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:9px;
+      padding-left:12px;
+      padding-right:12px;
+    }
+    .product{
+      padding:11px;
+    }
+  }
+
 </style>
 </head>
 <body>
