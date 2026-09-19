@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>GP Distribuciones · Catálogo de Artículos</title>
+<!-- Google Fonts & Tailwind -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        },
+        colors: {
+          brand: {
+            50: '#eef6ff',
+            100: '#d9ecff',
+            500: '#2563eb',
+            600: '#1d4ed8',
+            700: '#1e40af',
+            navy: '#0b192c',
+          },
+          accent: {
+            amber: '#f59e0b',
+            orange: '#ff6b35',
+            neon: '#06d6a0',
+          },
+          surface: '#f8fafc',
+          card: '#ffffff',
+        },
+        boxShadow: {
+          'soft': '0 8px 30px -4px rgba(15, 23, 42, 0.08)',
+          'float': '0 20px 40px -15px rgba(37, 99, 235, 0.2)',
+          'glow': '0 0 25px -5px rgba(255, 107, 53, 0.4)',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-32">
+<!-- TOP HERO BAR -->
+<header class="relative bg-gradient-to-br from-brand-navy via-slate-900 to-brand-700 text-white pt-6 pb-12 px-4 sm:px-6 rounded-b-[2rem] shadow-xl overflow-hidden">
+  <!-- Círculos decorativos de fondo -->
+  <div class="absolute -top-12 -right-12 w-48 h-48 bg-accent-orange/20 rounded-full blur-2xl pointer-events-none"></div>
+  <div class="absolute top-1/2 -left-10 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
+  
+  <div class="max-w-4xl mx-auto relative z-10">
+    <!-- Fila superior: Logo e Insignia -->
+    <div class="flex items-center justify-center gap-3 mb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-accent-orange to-amber-400 flex items-center justify-center font-extrabold text-white text-xl shadow-glow">
+          GP
+        </div>
+        <div>
+          <h1 class="text-center sm:text-5xl font-black tracking-tight text-white leading-none">GP DISTRIBUCIONES</h1>
+          <!-- Cartel / Subtítulo solicitado justo abajo de GP Distribuciones -->
+          <div class="inline-flex items-center gap-1.5 mt-1 px-2.5 py-0.5 rounded-full bg-blue-500/25 border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-wider">
+            <span>📦</span> Catálogo de Artículos
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botón Asistencia WhatsApp -->
+      <a class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/10 text-xs font-semibold text-slate-200 transition" href="https://wa.me/5493757527231?text=Hola!%20Tengo%20una%20consulta%20sobre%20los%20productos" target="_blank">
+        <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"></path></svg>
+        <span class="hidden sm:inline">Asistencia</span>
+      </a>
+    </div>
+
+    <!-- CARTEL DE MINI INSTRUCCIÓN PARA PEDIDOS -->
+    <div class="mt-4 p-3 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md shadow-inner flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-base flex-none">
+        💡
+      </div>
+      <p class="text-xs sm:text-sm text-slate-100 font-medium leading-snug">
+        <strong class="text-amber-300 font-bold">¿Cómo hacer tu pedido?</strong> Elegí los artículos tocando +AGREGAR despues toca <span class="inline-block bg-white/20 px-1.5 py-0.2 rounded font-bold text-white">+</span> o <span class="inline-block bg-white/20 px-1.5 py-0.2 rounded font-bold text-white">−</span> para ajustar cantidades y luego presioná <strong class="text-emerald-300">"Ver mi pedido"</strong> para enviarlo por WhatsApp.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- SEARCH BAR FLOTANTE (Sin categorías estorbosas para maximizar espacio de pantalla) -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 -mt-6 relative z-20">
+  <div class="relative bg-white rounded-2xl shadow-soft border border-slate-200/80 p-2 flex items-center transition focus-within:ring-4 focus-within:ring-brand-500/15 focus-within:border-brand-500">
+    <div class="pl-3 pr-2 text-slate-400">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-width="2.2"></circle>
+        <line stroke-linecap="round" stroke-width="2.2" x1="21" x2="16.65" y1="21" y2="16.65"></line>
+      </svg>
+    </div>
+    <input autocomplete="off" class="w-full bg-transparent text-sm sm:text-base font-medium text-slate-800 placeholder-slate-400 focus:outline-none py-1.5" id="searchInput" placeholder="Buscar por nombre de producto..." type="text"/>
+    <button class="hidden p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition" id="clearBtn">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+    </button>
+  </div>
+
+  <!-- Status y Contador de Artículos -->
+  <div class="flex items-center justify-between mt-2.5 text-xs text-slate-500 font-medium px-1">
+    <div class="flex items-center gap-1.5" id="syncIndicator">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+      </span>
+      <span id="syncText">Conectando catálogo en vivo...</span>
+    </div>
+    <span class="font-bold text-slate-700 bg-slate-200/60 px-2 py-0.5 rounded-full" id="resultCount">Cargando...</span>
+  </div>
+</div>
+
+<!-- CUADRO DE AVISO IMPORTANTE (Google Sheets col G) -->
+<div class="hidden max-w-4xl mx-auto mt-3 px-4 sm:px-6" id="importantMessageBox">
+  <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50 border border-amber-200 shadow-sm">
+    <span class="text-base leading-none">📢</span>
+    <div class="flex-1 min-w-0">
+      <p class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider mb-0.5">Aviso Importante</p>
+      <p class="text-xs sm:text-sm text-amber-900 font-medium leading-snug" id="importantMessageText"></p>
+    </div>
+  </div>
+</div>
+
+<!-- CATÁLOGO PRINCIPAL EN CUADRÍCULA (GRID OPTIMIZADO PARA MÁS ARTÍCULOS) -->
+<main class="max-w-4xl mx-auto mt-4 px-4 sm:px-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+      <span>Artículos Disponibles</span>
+      <span class="text-[11px] font-normal text-slate-500">(Precios finales)</span>
+    </h2>
+    <span class="text-xs font-semibold text-slate-500">Vista en cuadrícula</span>
+  </div>
+
+  <!-- Contenedor Grid responsivo: 2 columnas en móviles chicos, 3 en tablets, 4 en desktop -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3.5" id="productList">
+    <!-- Skeletons iniciales -->
+    <div class="animate-pulse bg-white p-3 rounded-2xl border border-slate-200 h-36 flex flex-col justify-between">
+      <div class="space-y-2">
+        <div class="h-3 bg-slate-200 rounded w-full"></div>
+        <div class="h-3 bg-slate-200 rounded w-2/3"></div>
+      </div>
+      <div class="h-8 bg-slate-100 rounded-xl"></div>
+    </div>
+    <div class="animate-pulse bg-white p-3 rounded-2xl border border-slate-200 h-36 flex flex-col justify-between">
+      <div class="space-y-2">
+        <div class="h-3 bg-slate-200 rounded w-full"></div>
+        <div class="h-3 bg-slate-200 rounded w-2/3"></div>
+      </div>
+      <div class="h-8 bg-slate-100 rounded-xl"></div>
+    </div>
+  </div>
+
+  <div class="hidden text-center py-14 px-4" id="noResults">
+    <div class="w-14 h-14 bg-slate-100 text-2xl rounded-full flex items-center justify-center mx-auto mb-2">🔍</div>
+    <h4 class="text-slate-800 font-bold text-sm">No encontramos ese producto</h4>
+    <p class="text-slate-500 text-xs mt-0.5">Intentá con otra palabra o revisá la ortografía.</p>
+  </div>
+</main>
+
+<!-- BARRA FLOTANTE DE CARRITO -->
+<div class="fixed bottom-4 left-3 right-3 max-w-md mx-auto z-40 transition-all duration-300 transform translate-y-28 opacity-0 pointer-events-none" id="cartBar">
+  <div class="bg-gradient-to-r from-brand-navy via-slate-900 to-brand-700 text-white rounded-2xl p-2.5 sm:p-3 shadow-2xl border border-white/15 backdrop-blur-xl flex items-center justify-between gap-2.5">
+    <div class="flex items-center gap-2.5 pl-1">
+      <div class="relative w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg>
+        <span class="absolute -top-1.5 -right-1.5 bg-accent-orange text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-sm" id="cartCountBadge">0</span>
+      </div>
+      <div>
+        <p class="text-[10px] font-semibold text-slate-300 uppercase tracking-wider leading-tight">Total</p>
+        <p class="text-base sm:text-lg font-black text-white tracking-tight" id="cartTotal">$0</p>
+      </div>
+    </div>
+    
+    <button class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-500/25 flex items-center gap-1.5 active:scale-95 transition" id="viewCartBtn">
+      <span>Ver mi pedido</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+    </button>
+  </div>
+</div>
+
+<!-- MODAL REVISIÓN DE PEDIDO & WHATSAPP -->
+<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4" id="overlay">
+  <div class="w-full max-w-lg bg-white rounded-t-[2rem] sm:rounded-2xl max-h-[90vh] flex flex-col shadow-2xl transform translate-y-full sm:translate-y-0 transition-transform duration-300 overflow-hidden" id="modalContainer">
+    <!-- Header Modal -->
+    <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+      <div>
+        <h3 class="text-base font-extrabold text-slate-900">Resumen de tu pedido</h3>
+        <p class="text-xs text-slate-500 font-medium">Revisá las cantidades antes de enviar</p>
+      </div>
+      <button class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition" id="closeModal">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+      </button>
+    </div>
+
+    <!-- Items -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-2.5" id="modalBody"></div>
+
+    <!-- Footer Total & Enviar -->
+    <div class="p-4 sm:p-5 border-t border-slate-100 bg-white space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-bold text-slate-600">Total acumulado:</span>
+        <span class="text-2xl font-black text-brand-navy" id="modalTotal">$0</span>
+      </div>
+      <div class="flex items-center gap-2 bg-emerald-50 text-emerald-800 px-3 py-2 rounded-xl text-xs font-semibold border border-emerald-200">
+        <span>📲</span>
+        <span>Te responderemos al instante por WhatsApp para coordinar.</span>
+      </div>
+      <button class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm sm:text-base py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-[0.98] transition" id="sendWhatsapp">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zM17.6 15.65c-.24.67-1.38 1.29-1.92 1.34-.52.05-1.18.07-3.8-1.02-3.13-1.3-5.15-4.47-5.3-4.68-.16-.21-1.28-1.7-1.28-3.24 0-1.54.81-2.3 1.1-2.6.29-.31.63-.38.84-.38.21 0 .42.01.6.02.2.01.46-.07.72.55.26.63.89 2.18.97 2.34.08.16.13.35.03.56-.1.21-.16.35-.31.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.66.19.33.85 1.4 1.83 2.27 1.26 1.12 2.32 1.47 2.65 1.63.33.16.52.13.71-.08.19-.21.82-.95 1.04-1.28.21-.33.43-.27.72-.16.29.11 1.85.87 2.17 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.44z"></path></svg>
+        <span>Confirmar y Enviar por WhatsApp</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let PRODUCTS = [];
+  const SHEET_ID = "1Eiz9HNsQT78lrJeqjrRrp4E9JOZSBQgh";
+  const SHEET_GID = "0";
+  const SHEET_URLS = [
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}&_=`,
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}&_=`
+  ];
+  const WHATSAPP_NUMBER = "5493757527231";
+
+  let cart = JSON.parse(localStorage.getItem('gp_cart') || '{}');
+
+  const listEl = document.getElementById('productList');
+  const searchInput = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  const resultCount = document.getElementById('resultCount');
+  const noResults = document.getElementById('noResults');
+  const cartBar = document.getElementById('cartBar');
+  const cartCountBadge = document.getElementById('cartCountBadge');
+  const cartTotal = document.getElementById('cartTotal');
+  const overlay = document.getElementById('overlay');
+  const modalContainer = document.getElementById('modalContainer');
+  const modalBody = document.getElementById('modalBody');
+  const modalTotal = document.getElementById('modalTotal');
+  const syncIndicator = document.getElementById('syncIndicator');
+  const syncText = document.getElementById('syncText');
+
+  function saveCart(){ 
+    localStorage.setItem('gp_cart', JSON.stringify(cart)); 
+  }
+  
+  function money(n){ 
+    return '$' + Number(n).toLocaleString('es-AR', {maximumFractionDigits:0}); 
+  }
+
+  function normalize(s){ 
+    return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); 
+  }
+
+  function renderList(filter){
+    const q = normalize(filter || '');
+    listEl.innerHTML = '';
+    let shown = 0;
+
+    PRODUCTS.forEach((prod, idx) => {
+      if(q && !normalize(prod.n).includes(q)) return;
+
+      shown++;
+      const qty = cart[idx] || 0;
+
+      const card = document.createElement('div');
+      card.className = `product-card group relative bg-white p-3 rounded-2xl border transition-all duration-200 flex flex-col justify-between shadow-xs ${qty > 0 ? 'border-brand-500 ring-2 ring-brand-500/20 bg-blue-50/20' : 'border-slate-200/90 hover:border-slate-300'}`;
+      card.dataset.idx = idx;
+
+      card.innerHTML = `
+        <!-- Contenido principal -->
+        <div>
+          <div class="flex items-start justify-between gap-1 mb-1.5">
+            ${prod.o ? '<span class="bg-gradient-to-r from-accent-orange to-amber-500 text-[9px] font-black text-white px-1.5 py-0.5 rounded tracking-wider uppercase">OFERTA</span>' : '<span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Art. #' + (idx+1) + '</span>'}
+            ${qty > 0 ? `<span class="bg-brand-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">${qty} en pedido</span>` : ''}
+          </div>
+          
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2 min-h-[2.5em] mb-1.5">${prod.n}</h3>
+        </div>
+
+        <!-- Precio y Botones de Cantidad -->
+        <div class="pt-2 border-t border-slate-100 mt-2">
+          <div class="flex items-baseline gap-1 mb-2">
+            <span class="text-sm sm:text-base font-black text-brand-600">${money(prod.p)}</span>
+            <span class="text-[10px] text-slate-400 font-medium"></span>
+          </div>
+
+          <!-- Controles Rápidos -->
+          ${qty === 0 ? `
+            <button class="w-full py-2 rounded-xl bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1 add-first-btn">
+              <span>+</span> Agregar
+            </button>
+          ` : `
+            <div class="flex items-center justify-between bg-slate-100 rounded-xl p-0.5 border border-slate-200">
+              <button class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-slate-700 hover:bg-white active:scale-90 transition minus-btn" aria-label="Restar">−</button>
+              <input class="w-8 text-center bg-transparent font-extrabold text-xs text-slate-900 outline-none qty-input" type="number" min="0" value="${qty}">
+              <button class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-brand-600 hover:bg-white active:scale-90 transition plus-btn" aria-label="Sumar">+</button>
+            </div>
+          `}
+        </div>
+      `;
+
+      const addFirstBtn = card.querySelector('.add-first-btn');
+      const minusBtn = card.querySelector('.minus-btn');
+      const plusBtn = card.querySelector('.plus-btn');
+      const input = card.querySelector('.qty-input');
+
+      if(addFirstBtn){
+        addFirstBtn.addEventListener('click', () => {
+          setQty(idx, 1);
+          renderList(searchInput.value);
+        });
+      }
+      if(minusBtn){
+        minusBtn.addEventListener('click', () => {
+          setQty(idx, (cart[idx]||0) - 1);
+          renderList(searchInput.value);
+        });
+      }
+      if(plusBtn){
+        plusBtn.addEventListener('click', () => {
+          setQty(idx, (cart[idx]||0) + 1);
+          renderList(searchInput.value);
+        });
+      }
+      if(input){
+        input.addEventListener('change', () => {
+          let v = parseInt(input.value, 10);
+          if(isNaN(v) || v < 0) v = 0;
+          setQty(idx, v);
+          renderList(searchInput.value);
+        });
+      }
+
+      listEl.appendChild(card);
+    });
+
+    resultCount.textContent = filter ? `${shown} encontrado${shown===1?'':'s'}` : `${shown} artículos`;
+    noResults.classList.toggle('hidden', shown > 0);
+  }
+
+  function setQty(idx, val){
+    if(val <= 0){ 
+      delete cart[idx]; 
+    } else { 
+      cart[idx] = val; 
+    }
+    saveCart();
+    updateCartBar();
+    triggerHaptic();
+  }
+
+  function cartEntries(){
+    return Object.entries(cart)
+      .filter(([idx]) => PRODUCTS[idx] !== undefined)
+      .map(([idx, qty]) => ({ idx: Number(idx), qty, prod: PRODUCTS[idx] }));
+  }
+
+  function cartTotalAmount(){
+    return cartEntries().reduce((sum, e) => sum + e.prod.p * e.qty, 0);
+  }
+
+  function updateCartBar(){
+    const entries = cartEntries();
+    const totalItems = entries.reduce((s,e)=>s+e.qty,0);
+    const total = cartTotalAmount();
+
+    if(totalItems === 0){
+      cartBar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+      cartBar.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    } else {
+      cartBar.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
+      cartBar.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      cartCountBadge.textContent = totalItems;
+      cartTotal.textContent = money(total);
+    }
+
+    if(!overlay.classList.contains('hidden')) renderModal();
+  }
+
+  function renderModal(){
+    const entries = cartEntries();
+    if(entries.length === 0){
+      modalBody.innerHTML = `
+        <div class="text-center py-8">
+          <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-xl mx-auto mb-2">🛒</div>
+          <p class="text-slate-700 font-bold text-sm">Tu pedido está vacío</p>
+          <p class="text-slate-400 text-xs mt-0.5">Elegí productos de la cuadrícula</p>
+        </div>
+      `;
+    } else {
+      modalBody.innerHTML = entries.map(e => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 gap-2">
+          <div class="flex-1 min-w-0">
+            <h5 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-1">${e.prod.n}</h5>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="text-xs font-bold text-brand-600">${money(e.prod.p * e.qty)}</span>
+              <span class="text-[10px] text-slate-400">(${money(e.prod.p)} c/u)</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 flex-none">
+            <button class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 hover:bg-rose-100 font-bold flex items-center justify-center text-xs" onclick="updateQtyGlobal(${e.idx}, 0)" title="Eliminar">🗑</button>
+            <div class="flex items-center bg-white rounded-lg border border-slate-200 p-0.5">
+              <button class="w-6 h-6 flex items-center justify-center font-bold text-slate-700 hover:bg-slate-50" onclick="updateQtyGlobal(${e.idx}, ${e.qty - 1})">−</button>
+              <span class="w-6 text-center font-bold text-xs text-slate-800">${e.qty}</span>
+              <button class="w-6 h-6 flex items-center justify-center font-bold text-brand-600 hover:bg-slate-50" onclick="updateQtyGlobal(${e.idx}, ${e.qty + 1})">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    modalTotal.textContent = money(cartTotalAmount());
+  }
+
+  window.updateQtyGlobal = function(idx, newVal){
+    setQty(idx, newVal);
+    renderList(searchInput.value);
+  };
+
+  function triggerHaptic(){
+    if(navigator.vibrate) navigator.vibrate(10);
+  }
+
+  // Modal Events
+  document.getElementById('viewCartBtn').addEventListener('click', () => {
+    renderModal();
+    overlay.classList.remove('hidden');
+    setTimeout(() => {
+      overlay.classList.remove('opacity-0');
+      modalContainer.classList.remove('translate-y-full');
+    }, 10);
+  });
+
+  function hideModal(){
+    overlay.classList.add('opacity-0');
+    modalContainer.classList.add('translate-y-full');
+    setTimeout(() => overlay.classList.add('hidden'), 300);
+  }
+
+  document.getElementById('closeModal').addEventListener('click', hideModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) hideModal(); });
+
+  // Search events
+  searchInput.addEventListener('input', () => {
+    clearBtn.classList.toggle('hidden', searchInput.value.length === 0);
+    renderList(searchInput.value);
+  });
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearBtn.classList.add('hidden');
+    renderList('');
+    searchInput.focus();
+  });
+
+  // WhatsApp Direct Send
+  document.getElementById('sendWhatsapp').addEventListener('click', () => {
+    const entries = cartEntries();
+    if(entries.length === 0) return;
+    let msg = '👋 ¡Hola GP Distribuciones! Quiero confirmar el siguiente pedido:%0A%0A';
+    entries.forEach(e => {
+      msg += `▪️ *${e.prod.n}*%0A   Cantidad: ${e.qty} un.  |  Subtotal: ${money(e.prod.p * e.qty)}%0A`;
+    });
+    msg += `%0A-------------------------------%0A`;
+    msg += `💰 *TOTAL A PAGAR: ${money(cartTotalAmount())}*%0A`;
+    msg += `📍 Aguardo confirmación de stock y entrega. ¡Muchas gracias!`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  });
+
+  // CSV Parsing
+  function parseCSV(text){
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for(let i = 0; i < text.length; i++){
+      const c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i+1] === '"'){ field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else {
+        if(c === '"') inQuotes = true;
+        else if(c === ','){ row.push(field); field = ''; }
+        else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+        else if(c === '\r'){ }
+        else field += c;
+      }
+    }
+    if(field.length > 0 || row.length > 0){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function parsePrice(raw){
+    let s = (raw || '').replace(/[^\d.,\-]/g, '');
+    if(!s) return NaN;
+    const hasComma = s.includes(',');
+    const hasDot = s.includes('.');
+    if(hasComma && hasDot){
+      const lastComma = s.lastIndexOf(',');
+      const lastDot = s.lastIndexOf('.');
+      s = (lastComma > lastDot) ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
+    } else if(hasComma){
+      const parts = s.split(',');
+      s = (parts.length > 2 || parts[parts.length - 1].length === 3) ? s.replace(/,/g, '') : s.replace(',', '.');
+    } else if(hasDot){
+      const parts = s.split('.');
+      if(parts.length > 2 || parts[parts.length - 1].length === 3) s = s.replace(/\./g, '');
+    }
+    return parseFloat(s);
+  }
+
+  const COL = { codigo: 0, nombre: 1, costo: 2, venta: 3, categoria: 4, ofertas: 5, mensaje: 6 };
+
+  function csvToProducts(text){
+    const rawRows = parseCSV(text);
+    const rows = rawRows.filter(r => r.length >= 2 && r[COL.nombre] && r[COL.nombre].trim());
+
+    const msgBox = document.getElementById('importantMessageBox');
+    const msgText = document.getElementById('importantMessageText');
+    const mensaje = (rawRows[1] && rawRows[1][COL.mensaje]) ? rawRows[1][COL.mensaje].trim() : '';
+    if(mensaje){
+      msgText.textContent = mensaje;
+      msgBox.classList.remove('hidden');
+    } else {
+      msgBox.classList.add('hidden');
+    }
+
+    let start = (rows[0] && /producto/i.test(rows[0][COL.nombre] || '')) ? 1 : 0;
+    const out = [];
+    for(let i = start; i < rows.length; i++){
+      const name = (rows[i][COL.nombre] || '').trim();
+      const price = parsePrice(rows[i][COL.venta]);
+      const offerRaw = (rows[i][COL.ofertas] || '').trim().toLowerCase();
+      const isOffer = /^(si|sí|x|1|true|oferta)$/.test(offerRaw);
+      if(name && !isNaN(price)){
+        out.push({ n: name, p: Math.round(price), o: isOffer });
+      }
+    }
+    return out;
+  }
+
+  async function loadProducts(){
+    for(const base of SHEET_URLS){
+      try {
+        const url = base + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const text = await res.text();
+        const parsed = csvToProducts(text);
+        if(parsed.length > 0){
+          PRODUCTS = parsed;
+          syncText.textContent = "Catálogo conectado y actualizado";
+          renderList(searchInput.value || '');
+          updateCartBar();
+          return;
+        }
+      } catch(err){
+        // reintenta con endpoint alternativo
+      }
+    }
+    // Datos de respaldo si la conexión no responde
+    PRODUCTS = [
+      {"n": "Yerba Mate Selección Especial 500g", "p": 2450, "o": true},
+      {"n": "Café Tostado Blend Premium 250g", "p": 5900, "o": true},
+      {"n": "Aceite de Oliva Virgen Extra 500ml", "p": 8200, "o": false},
+      {"n": "Galletitas Artesanales Avena y Miel", "p": 1650, "o": true},
+      {"n": "Agua Mineral de Manantial 1.5L", "p": 950, "o": false},
+      {"n": "Té Verde en Hebras 100g", "p": 1800, "o": false},
+      {"n": "Dulce de Leche Repostero 400g", "p": 2300, "o": true},
+      {"n": "Miel Pura de Monte 500g", "p": 3100, "o": false}
+    ];
+    syncText.textContent = "Modo catálogo rápido";
+    renderList('');
+    updateCartBar();
+  }
+
+  loadProducts();
+</script>
+</body>
+</html>
