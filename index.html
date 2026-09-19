@@ -67,6 +67,11 @@
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-32">
 <!-- TOP HERO BAR -->
 <header class="relative bg-gradient-to-br from-brand-navy via-slate-900 to-brand-700 text-white pt-6 pb-12 px-4 sm:px-6 rounded-b-[2rem] shadow-xl overflow-hidden">
+  <!-- CONTADOR DE VISITAS: chico, discreto, esquina superior -->
+  <div class="absolute top-2 right-3 z-20 flex items-center gap-1 text-[10px] font-semibold text-white/70 select-none" id="visitCounterBar">
+    <span>👁️</span>
+    <span id="visitCounterText">Cargando...</span>
+  </div>
   <!-- Círculos decorativos de fondo -->
   <div class="absolute -top-12 -right-12 w-48 h-48 bg-accent-orange/20 rounded-full blur-2xl pointer-events-none"></div>
   <div class="absolute top-1/2 -left-10 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -591,6 +596,24 @@
   }
 
   loadProducts();
+
+  // Contador de visitas (registro simple de cuántos clientes entran al catálogo)
+  (function trackVisit(){
+    const VISIT_KEY = 'gpdistribuciones-catalogo-visitas-2026';
+    const visitText = document.getElementById('visitCounterText');
+    fetch(`https://countapi.mileshilliard.com/api/v1/hit/${VISIT_KEY}`, { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if(data && data.value !== undefined){
+          visitText.textContent = `${data.value} visitas al catálogo`;
+        } else {
+          visitText.textContent = 'Visitas: —';
+        }
+      })
+      .catch(() => {
+        visitText.textContent = 'Visitas: —';
+      });
+  })();
 </script>
 </body>
 </html>
