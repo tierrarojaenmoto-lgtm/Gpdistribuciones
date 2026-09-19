@@ -54,6 +54,14 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Accesibilidad para clientes adultos: tipografía y controles más legibles */
+  body { font-size: 16px; }
+  button, input { touch-action: manipulation; }
+  @media (max-width: 640px) {
+    .product-card { min-height: 190px; }
+  }
+
 </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-32">
@@ -71,9 +79,9 @@
           GP
         </div>
         <div>
-          <h1 class="text-center sm:text-5xl font-black tracking-tight text-white leading-none">GP DISTRIBUCIONES</h1>
+          <h1 class="text-center text-2xl sm:text-5xl font-black tracking-tight text-white leading-none">GP DISTRIBUCIONES</h1>
           <!-- Cartel / Subtítulo solicitado justo abajo de GP Distribuciones -->
-          <div class="inline-flex items-center gap-1.5 mt-1 px-2.5 py-0.5 rounded-full bg-blue-500/25 border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-wider">
+          <div class="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1 rounded-full bg-blue-500/25 border border-blue-400/30 text-blue-200 text-sm font-bold uppercase tracking-wider">
             <span>📦</span> Catálogo de Artículos
           </div>
         </div>
@@ -91,7 +99,7 @@
       <div class="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-base flex-none">
         💡
       </div>
-      <p class="text-xs sm:text-sm text-slate-100 font-medium leading-snug">
+      <p class="text-sm sm:text-base text-slate-100 font-medium leading-snug">
         <strong class="text-amber-300 font-bold">¿Cómo hacer tu pedido?</strong> Elegí los artículos tocando +AGREGAR despues toca <span class="inline-block bg-white/20 px-1.5 py-0.2 rounded font-bold text-white">+</span> o <span class="inline-block bg-white/20 px-1.5 py-0.2 rounded font-bold text-white">−</span> para ajustar cantidades y luego presioná <strong class="text-emerald-300">"Ver mi pedido"</strong> para enviarlo por WhatsApp.
       </p>
     </div>
@@ -101,20 +109,20 @@
 <!-- SEARCH BAR FLOTANTE (Sin categorías estorbosas para maximizar espacio de pantalla) -->
 <div class="max-w-4xl mx-auto px-4 sm:px-6 -mt-6 relative z-20">
   <div class="relative bg-white rounded-2xl shadow-soft border border-slate-200/80 p-2 flex items-center transition focus-within:ring-4 focus-within:ring-brand-500/15 focus-within:border-brand-500">
-    <div class="pl-3 pr-2 text-slate-400">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+    <div class="pl-3 pr-3 text-slate-500">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
         <circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-width="2.2"></circle>
         <line stroke-linecap="round" stroke-width="2.2" x1="21" x2="16.65" y1="21" y2="16.65"></line>
       </svg>
     </div>
-    <input autocomplete="off" class="w-full bg-transparent text-sm sm:text-base font-medium text-slate-800 placeholder-slate-400 focus:outline-none py-1.5" id="searchInput" placeholder="Buscar por nombre de producto..." type="text"/>
+    <input autocomplete="off" class="w-full bg-transparent text-base sm:text-lg font-medium text-slate-800 placeholder-slate-400 focus:outline-none py-2.5" id="searchInput" placeholder="Buscar por nombre de producto..." type="text"/>
     <button class="hidden p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition" id="clearBtn">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
     </button>
   </div>
 
   <!-- Status y Contador de Artículos -->
-  <div class="flex items-center justify-between mt-2.5 text-xs text-slate-500 font-medium px-1">
+  <div class="flex items-center justify-between mt-3 text-sm text-slate-600 font-medium px-1">
     <div class="flex items-center gap-1.5" id="syncIndicator">
       <span class="relative flex h-2 w-2">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -122,7 +130,7 @@
       </span>
       <span id="syncText">Conectando catálogo en vivo...</span>
     </div>
-    <span class="font-bold text-slate-700 bg-slate-200/60 px-2 py-0.5 rounded-full" id="resultCount">Cargando...</span>
+    <span class="font-bold text-slate-800 bg-slate-200/60 px-3 py-1 rounded-full text-sm" id="resultCount">Cargando...</span>
   </div>
 </div>
 
@@ -138,17 +146,17 @@
 </div>
 
 <!-- CATÁLOGO PRINCIPAL EN CUADRÍCULA (GRID OPTIMIZADO PARA MÁS ARTÍCULOS) -->
-<main class="max-w-4xl mx-auto mt-4 px-4 sm:px-6">
+<main class="max-w-4xl mx-auto mt-5 px-4 sm:px-6">
   <div class="flex items-center justify-between mb-3">
-    <h2 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
       <span>Artículos Disponibles</span>
-      <span class="text-[11px] font-normal text-slate-500">(Precios finales)</span>
+      <span class="text-sm font-normal text-slate-500">(Precios finales)</span>
     </h2>
-    <span class="text-xs font-semibold text-slate-500">Vista en cuadrícula</span>
+    <span class="text-sm font-semibold text-slate-500">Vista en cuadrícula</span>
   </div>
 
   <!-- Contenedor Grid responsivo: 2 columnas en móviles chicos, 3 en tablets, 4 en desktop -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3.5" id="productList">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4" id="productList">
     <!-- Skeletons iniciales -->
     <div class="animate-pulse bg-white p-3 rounded-2xl border border-slate-200 h-36 flex flex-col justify-between">
       <div class="space-y-2">
@@ -175,21 +183,21 @@
 
 <!-- BARRA FLOTANTE DE CARRITO -->
 <div class="fixed bottom-4 left-3 right-3 max-w-md mx-auto z-40 transition-all duration-300 transform translate-y-28 opacity-0 pointer-events-none" id="cartBar">
-  <div class="bg-gradient-to-r from-brand-navy via-slate-900 to-brand-700 text-white rounded-2xl p-2.5 sm:p-3 shadow-2xl border border-white/15 backdrop-blur-xl flex items-center justify-between gap-2.5">
+  <div class="bg-gradient-to-r from-brand-navy via-slate-900 to-brand-700 text-white rounded-2xl p-3 sm:p-4 shadow-2xl border border-white/15 backdrop-blur-xl flex items-center justify-between gap-2.5">
     <div class="flex items-center gap-2.5 pl-1">
-      <div class="relative w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center text-white">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg>
+      <div class="relative w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg>
         <span class="absolute -top-1.5 -right-1.5 bg-accent-orange text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-sm" id="cartCountBadge">0</span>
       </div>
       <div>
         <p class="text-[10px] font-semibold text-slate-300 uppercase tracking-wider leading-tight">Total</p>
-        <p class="text-base sm:text-lg font-black text-white tracking-tight" id="cartTotal">$0</p>
+        <p class="text-lg sm:text-xl font-black text-white tracking-tight" id="cartTotal">$0</p>
       </div>
     </div>
     
-    <button class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-500/25 flex items-center gap-1.5 active:scale-95 transition" id="viewCartBtn">
+    <button class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-base sm:text-lg px-5 py-3 rounded-xl shadow-lg shadow-emerald-500/25 flex items-center gap-1.5 active:scale-95 transition" id="viewCartBtn">
       <span>Ver mi pedido</span>
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
     </button>
   </div>
 </div>
@@ -200,11 +208,11 @@
     <!-- Header Modal -->
     <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
       <div>
-        <h3 class="text-base font-extrabold text-slate-900">Resumen de tu pedido</h3>
-        <p class="text-xs text-slate-500 font-medium">Revisá las cantidades antes de enviar</p>
+        <h3 class="text-lg font-extrabold text-slate-900">Resumen de tu pedido</h3>
+        <p class="text-sm text-slate-500 font-medium">Revisá las cantidades antes de enviar</p>
       </div>
       <button class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition" id="closeModal">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
       </button>
     </div>
 
@@ -214,15 +222,15 @@
     <!-- Footer Total & Enviar -->
     <div class="p-4 sm:p-5 border-t border-slate-100 bg-white space-y-3">
       <div class="flex items-center justify-between">
-        <span class="text-sm font-bold text-slate-600">Total acumulado:</span>
+        <span class="text-base font-bold text-slate-600">Total acumulado:</span>
         <span class="text-2xl font-black text-brand-navy" id="modalTotal">$0</span>
       </div>
       <div class="flex items-center gap-2 bg-emerald-50 text-emerald-800 px-3 py-2 rounded-xl text-xs font-semibold border border-emerald-200">
         <span>📲</span>
         <span>Te responderemos al instante por WhatsApp para coordinar.</span>
       </div>
-      <button class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm sm:text-base py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-[0.98] transition" id="sendWhatsapp">
-        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zM17.6 15.65c-.24.67-1.38 1.29-1.92 1.34-.52.05-1.18.07-3.8-1.02-3.13-1.3-5.15-4.47-5.3-4.68-.16-.21-1.28-1.7-1.28-3.24 0-1.54.81-2.3 1.1-2.6.29-.31.63-.38.84-.38.21 0 .42.01.6.02.2.01.46-.07.72.55.26.63.89 2.18.97 2.34.08.16.13.35.03.56-.1.21-.16.35-.31.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.66.19.33.85 1.4 1.83 2.27 1.26 1.12 2.32 1.47 2.65 1.63.33.16.52.13.71-.08.19-.21.82-.95 1.04-1.28.21-.33.43-.27.72-.16.29.11 1.85.87 2.17 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.44z"></path></svg>
+      <button class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-base sm:text-lg py-4 rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-[0.98] transition" id="sendWhatsapp">
+        <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zM17.6 15.65c-.24.67-1.38 1.29-1.92 1.34-.52.05-1.18.07-3.8-1.02-3.13-1.3-5.15-4.47-5.3-4.68-.16-.21-1.28-1.7-1.28-3.24 0-1.54.81-2.3 1.1-2.6.29-.31.63-.38.84-.38.21 0 .42.01.6.02.2.01.46-.07.72.55.26.63.89 2.18.97 2.34.08.16.13.35.03.56-.1.21-.16.35-.31.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.66.19.33.85 1.4 1.83 2.27 1.26 1.12 2.32 1.47 2.65 1.63.33.16.52.13.71-.08.19-.21.82-.95 1.04-1.28.21-.33.43-.27.72-.16.29.11 1.85.87 2.17 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.44z"></path></svg>
         <span>Confirmar y Enviar por WhatsApp</span>
       </button>
     </div>
@@ -291,26 +299,26 @@
             ${qty > 0 ? `<span class="bg-brand-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">${qty} en pedido</span>` : ''}
           </div>
           
-          <h3 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2 min-h-[2.5em] mb-1.5">${prod.n}</h3>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug line-clamp-3 min-h-[3.6em] mb-2">${prod.n}</h3>
         </div>
 
         <!-- Precio y Botones de Cantidad -->
-        <div class="pt-2 border-t border-slate-100 mt-2">
+        <div class="pt-3 border-t border-slate-100 mt-3">
           <div class="flex items-baseline gap-1 mb-2">
-            <span class="text-sm sm:text-base font-black text-brand-600">${money(prod.p)}</span>
+            <span class="text-lg sm:text-xl font-black text-brand-600">${money(prod.p)}</span>
             <span class="text-[10px] text-slate-400 font-medium"></span>
           </div>
 
           <!-- Controles Rápidos -->
           ${qty === 0 ? `
-            <button class="w-full py-2 rounded-xl bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1 add-first-btn">
+            <button class="w-full py-3 rounded-xl bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-800 font-bold text-base transition flex items-center justify-center gap-1 add-first-btn">
               <span>+</span> Agregar
             </button>
           ` : `
-            <div class="flex items-center justify-between bg-slate-100 rounded-xl p-0.5 border border-slate-200">
-              <button class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-slate-700 hover:bg-white active:scale-90 transition minus-btn" aria-label="Restar">−</button>
-              <input class="w-8 text-center bg-transparent font-extrabold text-xs text-slate-900 outline-none qty-input" type="number" min="0" value="${qty}">
-              <button class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-brand-600 hover:bg-white active:scale-90 transition plus-btn" aria-label="Sumar">+</button>
+            <div class="flex items-center justify-between bg-slate-100 rounded-xl p-1 border border-slate-200">
+              <button class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-slate-700 text-xl hover:bg-white active:scale-90 transition minus-btn" aria-label="Restar">−</button>
+              <input class="w-12 text-center bg-transparent font-extrabold text-base text-slate-900 outline-none qty-input" type="number" min="0" value="${qty}">
+              <button class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-brand-600 text-xl hover:bg-white active:scale-90 transition plus-btn" aria-label="Sumar">+</button>
             </div>
           `}
         </div>
@@ -574,19 +582,11 @@
         // reintenta con endpoint alternativo
       }
     }
-    // Datos de respaldo si la conexión no responde
-    PRODUCTS = [
-      {"n": "Yerba Mate Selección Especial 500g", "p": 2450, "o": true},
-      {"n": "Café Tostado Blend Premium 250g", "p": 5900, "o": true},
-      {"n": "Aceite de Oliva Virgen Extra 500ml", "p": 8200, "o": false},
-      {"n": "Galletitas Artesanales Avena y Miel", "p": 1650, "o": true},
-      {"n": "Agua Mineral de Manantial 1.5L", "p": 950, "o": false},
-      {"n": "Té Verde en Hebras 100g", "p": 1800, "o": false},
-      {"n": "Dulce de Leche Repostero 400g", "p": 2300, "o": true},
-      {"n": "Miel Pura de Monte 500g", "p": 3100, "o": false}
-    ];
-    syncText.textContent = "Modo catálogo rápido";
-    renderList('');
+    // Si Google Sheets no responde, no se cargan artículos de prueba.
+    // La página queda vacía hasta poder leer el catálogo real.
+    PRODUCTS = [];
+    syncText.textContent = "No se pudo conectar al catálogo";
+    renderList(searchInput.value || '');
     updateCartBar();
   }
 
