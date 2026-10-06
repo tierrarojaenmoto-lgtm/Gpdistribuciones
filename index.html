@@ -58,9 +58,7 @@
   /* Accesibilidad para clientes adultos: tipografía y controles más legibles */
   body { font-size: 16px; }
   button, input { touch-action: manipulation; }
-  @media (max-width: 640px) {
-    .product-card { min-height: 190px; }
-  }
+  .product-img { transition: opacity .2s; }
 
 </style>
 </head>
@@ -299,6 +297,11 @@
       card.innerHTML = `
         <!-- Contenido principal -->
         <div>
+          <div class="product-img-box relative w-full aspect-square mb-2 rounded-xl bg-white border border-slate-100 overflow-hidden flex items-center justify-center">
+            ${prod.img
+              ? `<img src="${prod.img}" alt="" loading="lazy" referrerpolicy="no-referrer" class="product-img w-full h-full object-contain p-1.5">`
+              : `<span class="text-4xl opacity-30">📦</span>`}
+          </div>
           <div class="flex items-start justify-between gap-1 mb-1.5">
             ${prod.o ? '<span class="bg-gradient-to-r from-accent-orange to-amber-500 text-[9px] font-black text-white px-1.5 py-0.5 rounded tracking-wider uppercase">OFERTA</span>' : '<span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Art. #' + (idx+1) + '</span>'}
             ${qty > 0 ? `<span class="bg-brand-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">${qty} en pedido</span>` : ''}
@@ -328,6 +331,13 @@
           `}
         </div>
       `;
+
+      const imgEl = card.querySelector('.product-img');
+      if(imgEl){
+        imgEl.addEventListener('error', () => {
+          imgEl.parentElement.innerHTML = '<span class="text-4xl opacity-30">📦</span>';
+        });
+      }
 
       const addFirstBtn = card.querySelector('.add-first-btn');
       const minusBtn = card.querySelector('.minus-btn');
@@ -420,6 +430,7 @@
     } else {
       modalBody.innerHTML = entries.map(e => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 gap-2">
+          ${e.prod.img ? `<img src="${e.prod.img}" alt="" loading="lazy" referrerpolicy="no-referrer" class="w-12 h-12 flex-none rounded-lg bg-white border border-slate-100 object-contain" onerror="this.style.display='none'">` : ''}
           <div class="flex-1 min-w-0">
             <h5 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-1">${e.prod.n}</h5>
             <div class="flex items-center gap-1.5 mt-0.5">
@@ -538,7 +549,24 @@
     return parseFloat(s);
   }
 
-  const COL = { codigo: 0, nombre: 1, costo: 2, venta: 3, categoria: 4, ofertas: 5, mensaje: 6 };
+  const COL = { codigo: 0, nombre: 1, costo: 2, venta: 3, categoria: 4, ofertas: 5, mensaje: 6, imagen: 7 };
+
+  // Limpia la URL de la columna H. Acepta enlaces directos y enlaces de Google Drive.
+  function cleanImageUrl(raw){
+    let u = (raw || '').trim();
+    if(!/^https?:\/\//i.test(u)) return '';
+    const m = u.match(/drive\.google\.com\/file\/d\/([^\/?#]+)/) || u.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([^&#]+)/);
+    if(m) u = 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w600';
+    return u.replace(/"/g, '%22').replace(/'/g, '%27').replace(/</g, '%3C').replace(/>/g, '%3E');
+  }
+
+  // Lee la celda H: acepta "CÓDIGO|ENLACE" (como lo guarda el Gestor de Precios) o un enlace solo.
+  function parseImageCell(raw){
+    const s = (raw || '').trim();
+    const m = s.match(/https?:\/\/\S+/i);
+    if(!m) return { code: '', url: '' };
+    return { code: s.slice(0, m.index).replace(/\|\s*$/, '').trim().toUpperCase(), url: cleanImageUrl(m[0]) };
+  }
 
   function csvToProducts(text){
     const rawRows = parseCSV(text);
@@ -555,6 +583,10 @@
     }
 
     let start = (rows[0] && /producto/i.test(rows[0][COL.nombre] || '')) ? 1 : 0;
+    // Imagen vinculada al código (columna A): sigue al producto aunque cambie de fila
+    const imgByCode = {};
+    rows.forEach(r => { const ic = parseImageCell(r[COL.imagen]); if(ic.code && ic.url) imgByCode[ic.code] = ic.url; });
+    const imgFor = r => { const ic = parseImageCell(r[COL.imagen]); const c = (r[COL.codigo] || '').trim().toUpperCase(); return (c && imgByCode[c]) || (ic.code ? '' : ic.url); };
     const out = [];
     for(let i = start; i < rows.length; i++){
       const name = (rows[i][COL.nombre] || '').trim();
@@ -562,7 +594,7 @@
       const offerRaw = (rows[i][COL.ofertas] || '').trim().toLowerCase();
       const isOffer = /^(si|sí|x|1|true|oferta)$/.test(offerRaw);
       if(name && !isNaN(price)){
-        out.push({ n: name, p: Math.round(price), o: isOffer });
+        out.push({ n: name, p: Math.round(price), o: isOffer, img: imgFor(rows[i]) });
       }
     }
     return out;
