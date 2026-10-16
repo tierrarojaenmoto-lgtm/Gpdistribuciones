@@ -1,11 +1,7 @@
-// api/visita.js  (Vercel Serverless Function)
-// Avisa a Slack la primera vez que una IP visita la web.
-// Variables de entorno necesarias (en Vercel > Settings > Environment Variables):
-//   SLACK_WEBHOOK_URL, UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
-
+// api/visita.js (Vercel Serverless Function)
 const crypto = require('crypto');
 
-const BOTS = /bot|crawl|spider|slurp|bing|google|yandex|baidu|duckduck|facebookexternalhit|preview|monitor|uptime|curl|wget|python-requests|headless/i;
+const BOTS = /bot|crawl|spider|slurp|bing|google|yandex|baidu|duckduck|facebook|preview|monitor|headless/i;
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -25,29 +21,27 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Guardamos solo un hash de la IP (mejor para privacidad)
     const key = 'ip:' + crypto.createHash('sha256').update(ip).digest('hex');
 
-    // SET key 1 NX -> devuelve "OK" solo si la clave NO existía (IP nueva)
+    // Solo avisa si la IP no se vio en las últimas 24 h
     const r = await fetch(UPSTASH_REDIS_REST_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` },
-      body: JSON.stringify(['SET', key, '1', 'NX'])
+      body: JSON.stringify(['SET', key, '1', 'NX', 'EX', 86400])
     });
     const { result } = await r.json();
-    if (result !== 'OK') return res.status(204).end(); // IP ya vista
+    if (result !== 'OK') return res.status(204).end();
 
     const pais = req.headers['x-vercel-ip-country'] || '?';
     const ciudad = decodeURIComponent(req.headers['x-vercel-ip-city'] || '?');
-    const hora = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
+    const hora = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
     await fetch(SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text:
-          `🆕 *Nueva IP en el catálogo*\n` +
-          `*IP:* \`${ip}\`\n` +
+          `🆕 *Nueva visita en el catálogo*\n` +
           `*Ubicación aprox.:* ${ciudad}, ${pais}\n` +
           `*Dispositivo:* ${ua.slice(0, 120)}\n` +
           `*Hora:* ${hora}`
@@ -59,4 +53,3 @@ module.exports = async (req, res) => {
     return res.status(500).end();
   }
 };
-      
