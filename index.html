@@ -646,6 +646,8 @@
 
   // Contador de visitas (registro simple de cuántos clientes entran al catálogo)
   (function trackVisit(){
+    // Aviso a Slack si es una IP nueva (lo gestiona /api/visita en el servidor)
+    fetch('/api/visita', { method: 'POST', keepalive: true }).catch(() => {});
     const VISIT_KEY = 'gpdistribuciones-catalogo-visitas-2026';
     const visitText = document.getElementById('visitCounterText');
     fetch(`https://countapi.mileshilliard.com/api/v1/hit/${VISIT_KEY}`, { cache: 'no-store' })
