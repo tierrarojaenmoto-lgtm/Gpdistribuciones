@@ -309,6 +309,117 @@ header::after{width:58px;height:58px;right:18px;bottom:60px;animation:gpm-bubble
 }
 
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style id="gp-juvenil">
+/* === GP Juvenil: capa final de estilo (colores claros + motion). Quitá este bloque para volver al diseño anterior. === */
+:root{--j-sky:#EAF5FF;--j-mint:#C4F3E0;--j-lemon:#FFF1A6;--j-pink:#FFCFE2;--j-lilac:#DCD2FF;--j-ink:#2A2A5A;--j-ink2:#5B5B8C;--j-accent:#5B4BDB;
+--pulcro-bg:#EAF5FF;--pulcro-ink:#2A2A5A;--pulcro-yellow:#FFF1A6;--pulcro-pink:#FF8FBE;--pulcro-cyan:#C4F3E0;--pulcro-lime:#DCD2FF}
+body{background:radial-gradient(circle at 12% 8%,#FFE9F3 0,transparent 32%),radial-gradient(circle at 92% 22%,#E3FBF0 0,transparent 30%),var(--j-sky)!important;color:var(--j-ink)!important;font-family:'Nunito','Plus Jakarta Sans',system-ui,sans-serif!important}
+h1,h2,h3,.gpj-display{font-family:'Fredoka','Plus Jakarta Sans',system-ui,sans-serif!important}
+.gp-motion-ticker{background:var(--j-lemon)!important;color:var(--j-ink)!important;border-bottom:0!important;font-family:'Fredoka',sans-serif;font-weight:600}
+.gp-motion-track b{color:#FF6FA5!important}
+header{position:relative;background:linear-gradient(135deg,#C4F3E0 0%,#EAF5FF 48%,#DCD2FF 100%)!important;border:0!important;border-radius:0 0 42px 42px!important;box-shadow:0 10px 0 rgba(91,75,219,.10)!important;color:var(--j-ink)!important;overflow:hidden}
+header::before,header::after{display:none!important}
+.gpj-bg{position:absolute!important;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.gpj-blob{position:absolute;width:260px;height:260px;background:var(--j-pink);opacity:.8;right:-70px;top:-60px;animation:gpj-morph 9s ease-in-out infinite,gpj-spin 32s linear infinite}
+.gpj-blob.b2{width:200px;height:200px;background:var(--j-lemon);left:-60px;bottom:-70px;right:auto;top:auto;animation-duration:7s,24s;animation-direction:alternate,reverse}
+@keyframes gpj-morph{0%,100%{border-radius:60% 40% 55% 45%/50% 60% 40% 50%}50%{border-radius:40% 60% 45% 55%/60% 40% 60% 40%}}
+@keyframes gpj-spin{to{transform:rotate(360deg)}}
+.gp-logo-img{position:relative;transform-origin:50% 70%;animation:gpj-pop-in .9s cubic-bezier(.2,1.5,.4,1) both,gpj-logo 5s ease-in-out 1.2s infinite!important;filter:drop-shadow(0 6px 0 rgba(91,75,219,.14))}
+@keyframes gpj-logo{0%,100%{transform:translateY(0) rotate(0)}18%{transform:translateY(-7px) rotate(-2.5deg)}30%{transform:translateY(0) rotate(2deg) scale(1.04)}42%{transform:translateY(-3px) rotate(-1deg)}55%{transform:translateY(0) rotate(0) scale(1)}}
+@keyframes gpj-pop-in{from{transform:scale(.4) rotate(-8deg);opacity:0}}
+.gp-order-instructions{background:rgba(255,255,255,.78)!important;border:0!important;border-radius:26px!important;box-shadow:0 6px 0 rgba(91,75,219,.10)!important;color:var(--j-ink)!important;backdrop-filter:blur(6px)}
+.gp-order-instructions *{color:var(--j-ink)!important}
+#searchInput{font-family:'Nunito',sans-serif;font-weight:700}
+#searchInput:focus{outline:none}
+.max-w-4xl>.relative.bg-white{border:3px solid var(--j-ink)!important;border-radius:999px!important;box-shadow:0 6px 0 var(--j-pink)!important}
+#resultCount{background:var(--j-lilac)!important;color:var(--j-ink)!important}
+main h2{font-size:1.7rem!important;color:var(--j-ink)!important}
+#productList .product-card{border:0!important;border-radius:28px!important;background:#fff!important;box-shadow:0 7px 0 rgba(91,75,219,.12)!important;transition:transform .25s cubic-bezier(.2,1.6,.4,1),box-shadow .25s}
+#productList .product-card:hover{transform:translateY(-5px) rotate(-.8deg)!important;box-shadow:0 12px 0 rgba(91,75,219,.16)!important}
+#productList .product-card:nth-child(4n+1){background:linear-gradient(#fff 55%,#FFF4F9)!important}
+#productList .product-card:nth-child(4n+2){background:linear-gradient(#fff 55%,#F0FFF8)!important}
+#productList .product-card:nth-child(4n+3){background:linear-gradient(#fff 55%,#F6F2FF)!important}
+#productList .product-card:nth-child(4n){background:linear-gradient(#fff 55%,#FFFBE3)!important}
+#productList .product-card img{transition:transform .35s cubic-bezier(.2,1.6,.4,1)}
+#productList .product-card:hover img{transform:scale(1.08) rotate(-3deg)}
+#productList .product-card h3{color:var(--j-ink)!important;font-family:'Nunito',sans-serif!important;font-weight:800!important}
+#productList .product-card .text-brand-600{color:var(--j-accent)!important;font-family:'Fredoka',sans-serif}
+#productList .from-accent-orange{background:var(--j-pink)!important;color:var(--j-ink)!important;border-radius:99px!important;padding:2px 10px!important;font-family:'Fredoka',sans-serif;transform:rotate(-4deg)}
+#productList .product-card button{border:0!important}
+#productList .add-first-btn{background:var(--j-lemon)!important;color:var(--j-ink)!important;border-radius:99px!important;box-shadow:0 4px 0 rgba(42,42,90,.22)!important;font-family:'Fredoka',sans-serif;transition:transform .15s,box-shadow .15s}
+#productList .add-first-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(42,42,90,.22)!important}
+#productList .minus-btn,#productList .plus-btn{background:var(--j-mint)!important;color:var(--j-ink)!important;border-radius:50%!important;box-shadow:0 3px 0 rgba(42,42,90,.2)!important}
+#productList .qty-input{font-family:'Fredoka',sans-serif;color:var(--j-ink)!important}
+#cartBar>div{background:var(--j-ink)!important;border:0!important;border-radius:99px!important;box-shadow:0 8px 0 rgba(91,75,219,.35)!important}
+#cartBar button{background:var(--j-lemon)!important;color:var(--j-ink)!important;border:0!important;border-radius:99px!important;box-shadow:0 4px 0 rgba(255,255,255,.25)!important;font-family:'Fredoka',sans-serif}
+#cartBar #cartCountBadge{background:var(--j-pink)!important;color:var(--j-ink)!important}
+#cartBar.gpj-bump>div{animation:gpj-bump .45s}
+@keyframes gpj-bump{40%{transform:scale(1.07) rotate(-1deg)}}
+#overlay>div{border:0!important;border-radius:32px 32px 0 0!important;box-shadow:none!important}
+#modalContainer{border-radius:32px!important}
+#sendWhatsapp{border:0!important;background:#25D366!important;color:#073b1a!important;border-radius:99px!important;box-shadow:0 5px 0 #138a42!important;font-family:'Fredoka',sans-serif}
+.gpj-burst{position:fixed;z-index:999;pointer-events:none;font-size:1.3rem;will-change:transform,opacity}
+@media(max-width:560px){.gpj-blob{width:200px;height:200px}}
+@media(prefers-reduced-motion:reduce){.gpj-blob,.gp-logo-img,#cartBar.gpj-bump>div{animation:none!important}#productList .product-card,#productList .product-card img{transition:none!important}}
+/* --- Compacto: sin huecos arriba del logo --- */
+header{padding-top:6px!important;padding-bottom:20px!important;border-radius:0 0 30px 30px!important}
+header .max-w-4xl>div:first-child{margin:0!important;padding:0!important;line-height:0}
+.gp-order-instructions{margin-top:4px!important;padding:10px 12px!important}
+.gp-motion-ticker{min-height:28px!important;padding:3px 0!important}
+.gp-motion-track{font-size:13px!important}
+#visitCounterBar{top:4px!important}
+/* --- Botones de categoría (reemplazan los textos de estado y el título) --- */
+main{margin-top:12px!important}
+#gpjCats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.gpj-cat{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 4px 10px;border:0;border-radius:24px;background:var(--j-mint);color:var(--j-ink);font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;line-height:1.1;text-align:center;box-shadow:0 5px 0 rgba(91,75,219,.16);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,1.6,.4,1),box-shadow .18s,background .2s,color .2s}
+.gpj-cat[data-k=gen]{background:var(--j-lilac)}
+.gpj-cat[data-k=ana]{background:var(--j-lemon)}
+.gpj-ce{font-size:1.7rem;line-height:1}
+.gpj-cn{position:absolute;top:6px;right:7px;min-width:20px;padding:1px 7px;border-radius:99px;background:rgba(255,255,255,.85);font:700 11px 'Fredoka',sans-serif;color:var(--j-ink)}
+.gpj-cn:empty{display:none}
+.gpj-cat[aria-pressed=true]{background:var(--j-ink);color:#fff;transform:translateY(3px);box-shadow:0 2px 0 rgba(91,75,219,.3)}
+.gpj-cat[aria-pressed=true] .gpj-cn{background:var(--j-lemon);color:var(--j-ink)}
+.gpj-cat[aria-pressed=true]::before{content:'✕';position:absolute;top:7px;left:10px;font-size:11px;opacity:.85}
+.gpj-cat[aria-pressed=true] .gpj-ce{animation:gpj-ce 1.6s ease-in-out infinite}
+@keyframes gpj-ce{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg) scale(1.1)}60%{transform:rotate(10deg)}}
+.gpj-cat:focus-visible{outline:3px solid var(--j-ink);outline-offset:2px}
+@media(max-width:360px){.gpj-cat{font-size:13px;padding:10px 2px 8px}}
+@media(prefers-reduced-motion:reduce){.gpj-cat,.gpj-cat[aria-pressed=true] .gpj-ce{transition:none!important;animation:none!important}}
+/* --- Botones de categoría: versión sobria (sin emojis) --- */
+#gpjCats{gap:8px;margin-top:12px}
+.gpj-cat,.gpj-cat[data-k]{flex-direction:row;flex-wrap:wrap;gap:2px 6px;min-height:46px;padding:10px 8px;border-radius:12px;background:#fff;color:#174e57;border:1.5px solid #78b9bf;box-shadow:none;font-family:'Nunito','Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:13.5px;letter-spacing:.01em}
+.gpj-cat:hover{background:#eaf7f6}
+.gpj-cn{position:static;min-width:0;padding:1px 7px;background:#e8f6f4;color:#174e57;font:800 11px 'Nunito',sans-serif}
+.gpj-cat[aria-pressed=true]{background:#176d78;border-color:#176d78;color:#fff;transform:none;box-shadow:none}
+.gpj-cat[aria-pressed=true]::before{content:none}
+.gpj-cat[aria-pressed=true] .gpj-cn{background:rgba(255,255,255,.22);color:#fff}
+/* --- Botones de categoría: estilo píldora plana (icono oscuro + etiqueta) --- */
+#gpjCats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+#gpjCats .gpj-cat{--c:#1E8FCB;--d:#14709F;position:relative;display:flex;flex-direction:row;align-items:stretch;justify-content:flex-start;gap:0;padding:0;min-height:54px;border:0;border-radius:999px;background:var(--c);color:#fff;overflow:hidden;text-align:left;font:800 12.5px/1.1 'Nunito','Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:0;box-shadow:0 0 0 2px #fff,3px 5px 9px rgba(23,59,67,.24);transition:transform .15s,box-shadow .15s,background .2s;-webkit-tap-highlight-color:transparent}
+#gpjCats .gpj-cat[data-k=gen]{--c:#7B5BB5;--d:#58398F}
+#gpjCats .gpj-cat[data-k=ana]{--c:#3E9A1E;--d:#2A7010}
+#gpjCats .gpj-cat:hover{transform:translateY(-1px)}
+#gpjCats .gpj-ic{flex:0 0 36px;display:grid;place-items:center;background:var(--d)}
+#gpjCats .gpj-ic svg{width:20px;height:20px;fill:#fff}
+#gpjCats .gpj-lb{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:6px 8px 6px 7px}
+#gpjCats .gpj-nm{text-shadow:0 1px 0 rgba(0,0,0,.22)}
+#gpjCats .gpj-cn{position:static;display:block;min-width:0;padding:0;background:none;color:#fff;font:700 10.5px 'Nunito',sans-serif;opacity:.92;margin-top:2px}
+#gpjCats .gpj-cn:empty{display:none}
+#gpjCats .gpj-cat[aria-pressed=true]{background:var(--d);transform:translateY(1px);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--c),2px 3px 6px rgba(23,59,67,.2)}
+#gpjCats .gpj-cat[aria-pressed=true] .gpj-ic{background:rgba(0,0,0,.2)}
+#gpjCats .gpj-cat[aria-pressed=true]::before{content:none}
+@media(max-width:360px){#gpjCats .gpj-cat{font-size:11.5px}#gpjCats .gpj-ic{flex-basis:30px}}
+@media(prefers-reduced-motion:reduce){#gpjCats .gpj-cat{transition:none!important}}
+/* --- Rótulo de categorías y búsqueda global --- */
+#gpjCatsLabel{display:flex;align-items:center;gap:8px;margin:12px 2px 0;font:700 11.5px 'Nunito',sans-serif;color:#5d7f84}
+#gpjCatsLabel b{font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#174e57}
+#gpjCatsLabel::after{content:"";order:3;flex:1;height:1px;background:#b8d9dc}
+#gpjCatsLabel span{order:2}
+#gpjCats{margin-top:6px}
+#gpjCats.gpj-off .gpj-cat[aria-pressed=true]{background:var(--c);transform:none;box-shadow:0 0 0 2px #fff,3px 5px 9px rgba(23,59,67,.24)}
+#gpjCats.gpj-off .gpj-cat[aria-pressed=true] .gpj-ic{background:var(--d)}
+</style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-32">
 <!-- BANNER GP MOTO TAXI -->
@@ -530,6 +641,7 @@ header::after{width:58px;height:58px;right:18px;bottom:60px;animation:gpm-bubble
 
     PRODUCTS.forEach((prod, idx) => {
       if(q && !normalize(prod.n).includes(q)) return;
+      if(!q && window.gpjFilter && !window.gpjFilter(prod)) return;
 
       shown++;
       const qty = cart[idx] || 0;
@@ -872,7 +984,7 @@ header::after{width:58px;height:58px;right:18px;bottom:60px;animation:gpm-bubble
       const offerRaw = (rows[i][COL.ofertas] || '').trim().toLowerCase();
       const isOffer = /^(si|sí|x|1|true|oferta)$/.test(offerRaw);
       if(name && !isNaN(price)){
-        out.push({ n: name, p: Math.round(price), o: isOffer, img: imgFor(rows[i]) });
+        out.push({ n: name, p: Math.round(price), o: isOffer, c: (rows[i][COL.categoria] || '').trim(), img: imgFor(rows[i]) });
       }
     }
     return out;
@@ -1012,6 +1124,84 @@ header::after{width:58px;height:58px;right:18px;bottom:60px;animation:gpm-bubble
   if (send) send.addEventListener('click', confetti, true);
 })();
 
+</script>
+<script id="gp-juvenil-js">
+/* GP Juvenil: burbujas del encabezado y explosión al agregar. No toca tu lógica de pedidos. */
+(function(){
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var h=document.querySelector('header');
+  if(h&&!h.querySelector('.gpj-bg')){
+    var bg=document.createElement('div');bg.className='gpj-bg';bg.setAttribute('aria-hidden','true');
+    bg.innerHTML='<div class="gpj-blob"></div><div class="gpj-blob b2"></div>';
+    h.insertBefore(bg,h.firstChild);
+  }
+  var bits=['✨','🫧','💖','⭐','🌸'];
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.add-first-btn,.plus-btn');
+    if(!b)return;
+    var bar=document.getElementById('cartBar');
+    if(bar){bar.classList.remove('gpj-bump');void bar.offsetWidth;bar.classList.add('gpj-bump');}
+    if(calm||!b.animate)return;
+    var r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    for(var i=0;i<7;i++){
+      var s=document.createElement('span');s.className='gpj-burst';s.textContent=bits[i%bits.length];
+      s.style.left=cx+'px';s.style.top=cy+'px';document.body.appendChild(s);
+      var a=(Math.PI*2*i)/7,d=40+Math.random()*34;
+      s.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:1},
+        {transform:'translate(calc(-50% + '+Math.cos(a)*d+'px),calc(-50% + '+(Math.sin(a)*d-26)+'px)) scale(1.2)',opacity:0}],
+        {duration:650+Math.random()*250,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=(function(n){return function(){n.remove()}})(s);
+    }
+  },true);
+  /* La cinta superior solo se muestra si hay un aviso real de tu Sheet; con el texto de relleno se oculta */
+  var tk=document.getElementById('gpNoticeTicker'),tr=document.getElementById('gpNoticeTrack');
+  function chk(){if(!tk||!tr)return;var t=(tr.textContent||'').trim();
+    tk.style.display=(!t||/^GP DISTRIBUCIONES\s*✦\s*PERFUMER/i.test(t))?'none':'';}
+  if(tr){chk();if(window.MutationObserver)new MutationObserver(chk).observe(tr,{childList:true,characterData:true,subtree:true});}
+  /* ---- Botones de categoría: Higiene personal / Genéricos / Analgésicos ---- */
+  var nz=function(s){return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')};
+  var RX={
+    hig:/shampoo|champu|acondicionador|enjuague bucal|desodorante|antitranspirante|pasta dental|dentifric|cepillo|toallita|toalla.*(femenin|higien)|aposito|protector.*diario|tampon|papel higienico|panal|algodon|hisopo|cotonete|afeit|prestobarba|gillette|talco|colonia|perfume|fragancia|crema (corporal|de manos|dental)|gel (ducha|de ducha|capilar|fijador)|preservativo|cortaunas|peine|esmalte|acetona|jabon/,
+    gen:/generico|allopurinol|amoxicilina|ampicilina|azitromicina|betametasona|dexametasona|prednisona|prednisolona|bromhexina|ambroxol|cefalexina|cefadroxilo|ceftriaxona|ciprofloxacina|levofloxacina|norfloxacina|claritromicina|doxiciclina|diclof|enalapril|losartan|atenolol|amlodipina|captopril|ketorolac|ibuprofeno|naproxeno|meloxicam|paracetamol|dipirona|fluconazol|ketoconazol|clotrimazol|nistatina|metronidazol|tinidazol|norgestrel|omeprazol|ranitidina|famotidina|domperidona|metoclopramida|loperamida|loratadina|cetirizina|difenhidramina|salbutamol|ivermectina|albendazol|mebendazol|nitazoxanida|metformina|atorvastatina|simvastatina|levotiroxina|furosemida|hidroclorotiazida|clonazepam|diazepam|alprazolam|tramadol|acido folico/,
+    ana:/tafirol|actron|aspirin|cafiaspirina|dorixina|novalgina|dipirona|mejoral|migral|migra|geniol|ibu evanol|\bibu\b|ibuprofeno|diclof|ketorolac|paracetamol|naproxeno|tetralgin|fabog|fabop|dolo|analges|bengue|meloxicam|etoricoxib|nimesulida|kitadol|saridon/
+  };
+  var KEY={hig:'higien',gen:'generic',ana:'analges'};
+  function inCat(k,p){
+    var n=nz(p.n),c=nz(p.c);
+    if(c&&c.indexOf(KEY[k])>-1)return true;
+    if(k==='hig'&&/jabon.*(polvo|liquido|ropa|lavar|lavarropa)/.test(n))return false;
+    return RX[k].test(n);
+  }
+  var CATS=[
+    ['hig','<path d="M12 2.5c3.6 4.3 6 7.4 6 10.6a6 6 0 0 1-12 0C6 9.9 8.4 6.8 12 2.5z"/>','Higiene personal'],
+    ['gen','<g transform="rotate(-45 12 12)"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5"/><path d="M12 7.5v9" stroke="rgba(0,0,0,.28)" stroke-width="1.6"/></g>','Genéricos'],
+    ['ana','<path d="M9.5 3h5v6.5H21v5h-6.5V21h-5v-6.5H3v-5h6.5z"/>','Analgésicos']];
+  var wrap=document.createElement('div');wrap.id='gpjCats';wrap.setAttribute('role','group');wrap.setAttribute('aria-label','Categorías de productos');
+  wrap.innerHTML=CATS.map(function(c){return '<button type="button" class="gpj-cat" data-k="'+c[0]+'" aria-pressed="false"><span class="gpj-ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+c[1]+'</svg></span><span class="gpj-lb"><span class="gpj-nm">'+c[2]+'</span><span class="gpj-cn"></span></span></button>';}).join('');
+  var si=document.getElementById('syncIndicator'),row=si&&si.parentElement;
+  if(row&&row.parentElement){row.style.display='none';row.parentElement.insertBefore(wrap,row);}
+  else{var mm=document.querySelector('main');if(mm)mm.insertBefore(wrap,mm.firstChild);}
+  if(wrap.parentNode){var lab=document.createElement('div');lab.id='gpjCatsLabel';lab.innerHTML='<b>Categorías</b><span>Tocá una para filtrar</span>';wrap.parentNode.insertBefore(lab,wrap);}
+  var hd=document.querySelector('main>div.flex.items-center.justify-between');
+  if(hd)hd.style.display='none';
+  var cur=null;
+  wrap.addEventListener('click',function(e){
+    var b=e.target.closest('.gpj-cat');if(!b)return;
+    if(typeof searchInput!=='undefined'&&searchInput.value){searchInput.value='';var cb=document.getElementById('clearBtn');if(cb)cb.classList.add('hidden');}
+    var k=b.getAttribute('data-k');cur=(cur===k)?null:k;
+    window.gpjFilter=cur?function(p){return inCat(cur,p);}:null;
+    [].forEach.call(wrap.children,function(x){x.setAttribute('aria-pressed',x.getAttribute('data-k')===cur?'true':'false');});
+    if(typeof renderList==='function'&&typeof searchInput!=='undefined')renderList(searchInput.value);
+    if(!calm&&b.animate)b.animate([{transform:'scale(.92)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:350,easing:'ease-out'});
+  });
+  function counts(){
+    if(typeof PRODUCTS==='undefined'||!PRODUCTS.length)return;
+    [].forEach.call(wrap.children,function(b){
+      var k=b.getAttribute('data-k'),n=0;PRODUCTS.forEach(function(p){if(inCat(k,p))n++;});
+      b.querySelector('.gpj-cn').textContent=n?String(n):'';
+    });
+  }
+  if(typeof renderList==='function'){var _r=renderList;renderList=function(){var r=_r.apply(this,arguments);counts();wrap.classList.toggle('gpj-off',!!String(arguments[0]||'').trim()&&!!cur);return r;};}
+})();
 </script>
 </body>
 </html>
